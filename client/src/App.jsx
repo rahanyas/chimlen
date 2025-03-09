@@ -1,26 +1,51 @@
 import Navbar from "./components/Navbar";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Layout/Structure";
 import Home from "./Pages/Home";
-import  React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
-const SignUp = lazy(() => import ('./Pages/SignUp'))
+import LoadingScreen from "./components/Loading";
+
+const SignUp = lazy(() => import("./Pages/SignUp"));
+const Login = lazy(() => import("./Pages/Login"));
+
+const AppRoutes = () => {
+  const location = useLocation(); // ✅ Get current location to trigger animations
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
+
+        <Route
+          path="/signup"
+          element={
+            <Suspense fallback={<LoadingScreen />}>
+              <SignUp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Suspense fallback={<LoadingScreen />}>
+              <Login />
+            </Suspense>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 const App = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <AnimatePresence mode="wait">
-     <Router>
-        <Routes>
-          <Route path="/" element={<Layout/>}>
-             <Route index  element={<Home/>}/>
-          </Route>
-          <Route path="/signup" element={<SignUp/>}/>
-        </Routes>
-     </Router>
-      </AnimatePresence>
-    </div>
-  )
+    <Router>
+      <AppRoutes />
+    </Router>
+  );
 };
 
 export default App;
