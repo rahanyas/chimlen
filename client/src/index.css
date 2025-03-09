@@ -4,9 +4,3 @@ body{
   background-color: #413C3C;
 }
 
-.navbar-btn {
-  border: 1px solid rgba(185, 185, 189, 0.374);
-  padding : 5px 20px;
-  text-transform: capitalize;
-  cursor: pointer;
-}

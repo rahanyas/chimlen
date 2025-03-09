@@ -2,8 +2,8 @@ import {motion} from 'framer-motion'
 
 const footerItems = [
   { media: "LinkedIn", link: "https://www.linkedin.com/in/rahanyas" },
-  { media: "Instagram", link: "https://www.instagram.com/rahanyas" },
-  { media: "GitHub", link: "https://www.github.com/rahanyas" },
+  { media: "Instagram", link: "https://www.instagram.com/rahan.ys.__" },
+  { media: "GitHub", link: "https://www.github.com/rahanyas." },
 ];
 
 const Footer = () => {
