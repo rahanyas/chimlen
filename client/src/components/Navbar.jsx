@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu} from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const btnVariants = {
   hover: { scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)" },
@@ -9,39 +10,101 @@ const btnVariants = {
 };
 
 const menuVariants = {
-  hidden: {y:0, opacity: 0 , transition : {duration : 0.}},
-  visible: { 
-    y: 70, 
-    opacity: 1, 
-    transition: { duration: 0.3 },
-    ease : 'easeIn' 
+  hidden: { y: 0, opacity: 0, transition: { duration: 0.0 } },
+  visible: {
+    y: 70,
+    opacity: 1,
+    transition: { duration: 0.3 , ease: "easeIn",},
+    
   },
-  exit:{
-    y:0,
-    transition : {duration : 0.3}
-  }
+  exit: {
+    y: 0,
+    opacity : 0,
+    transition: { duration: 0.3 , ease : 'easeOut'},  
+  },
 };
 
 const Navbar = () => {
+
   const [isMobile, setIsMobile] = useState(false);
+
   return (
-    <motion.nav initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-black w-full text-white flex items-center justify-between px-6 p-5 fixed top-0 left-0 right-0 z-10">
+    <motion.nav
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="bg-black w-full text-white flex items-center justify-between px-6 p-5 fixed top-0 left-0 right-0 z-10"
+    >
       <h1 className="capitalize text-[20px]">chimlen</h1>
       <div className="hidden md:flex gap-6">
-        <motion.button variants={btnVariants} whileHover="hover" whileTap="tap" className="rounded-full px-4 py-2 cursor-pointer ">Login</motion.button>
-        <motion.button variants={btnVariants} whileHover="hover" whileTap="tap" className="rounded-full px-4 py-2 cursor-pointer">Sign-in</motion.button>
+          <Link to="/login">
+        <motion.button
+          variants={btnVariants}
+          whileHover="hover"
+          whileTap="tap"
+          className="rounded-full px-4 py-2 cursor-pointer"
+        >
+          Login
+        </motion.button>
+          </Link>
+          <Link to="/signup">
+        <motion.button
+          variants={btnVariants}
+          whileHover="hover"
+          whileTap="tap"
+          className="rounded-full px-4 py-2 cursor-pointer"
+        >
+          Sign-up
+        </motion.button>
+          </Link>
       </div>
       <div className="md:hidden">
-        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile(!isMobile)}>
-          <Menu size={28} className="cursor-pointer" />
+        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile((prev) => !prev)}>
+          {isMobile ? 
+                      <X 
+                      size={28} 
+                      className="cursor-pointer" />  
+                      :
+                      <Menu 
+                      size={28} 
+                      className="cursor-pointer" />          
+                    }
+                  
         </motion.button>
       </div>
+      <AnimatePresence>
+
       {isMobile && (
-        <motion.div variants={menuVariants} initial="hidden" animate="visible" exit="hidden" className="fixed top-0 left-0 w-full h-fit bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden">
-          <motion.button whileHover="hover" whileTap="tap" variants={btnVariants} exit='exit' className="rounded-full px-4 py-2 cursor-pointer">Login</motion.button>
-          <motion.button whileHover="hover" whileTap="tap" variants={btnVariants} className="rounded-full px-4 py-2 cursor-pointer">Sign-in</motion.button>
+        <motion.div
+          variants={menuVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="fixed top-0 left-0 w-full h-fit bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden"
+        >
+            <Link to="/login">
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            variants={btnVariants}
+            exit="exit"
+            className="rounded-full px-4 py-2 cursor-pointer"
+          >
+            login
+          </motion.button>
+            </Link>
+            <Link to="/signup">
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            variants={btnVariants}
+            className="rounded-full px-4 py-2 cursor-pointer"
+          >
+            sign-In
+          </motion.button>
+            </Link>
         </motion.div>
       )}
+      </AnimatePresence>
     </motion.nav>
   );
 };
