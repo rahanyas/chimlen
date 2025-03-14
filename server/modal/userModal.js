@@ -31,6 +31,9 @@ const userSchema = mongoose.Schema({
     type : String,
     required : true
   },
+  profilePic : {
+    type : String
+  },
   active : {
     type : Boolean,
     default : true
@@ -52,7 +55,6 @@ userSchema.statics.signup = async function (
   password
 ){
    try {
-      
     if(!userName || !email || !mobile || !password){
        throw new Error("all feild are required");
     };

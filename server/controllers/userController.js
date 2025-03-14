@@ -3,8 +3,9 @@ import User from "../modal/userModal.js";
 
 export const handleSignup = async (req, res) => {
   try {
-    const { userName, Email, mobile, pass } = req.body;
-    const user = await User.signup(userName, Email, mobile, pass)
+    const { user } = req.body;
+    const {userName, email, mobile, password} = user
+    const Newuser = await User.signup(userName,email,mobile, password)
 
     const token = user.generateToken();
     console.log(token);

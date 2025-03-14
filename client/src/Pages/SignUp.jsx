@@ -12,25 +12,32 @@ const pageVariants = {
 
 const SignUp = () => {
 
-  const [userName, setUserName] = useState('');
-  const [Email, setEmail] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [pass, setPass] = useState('');
+  const [user, setUser] = useState({
+     userName : '',
+     email : '',
+     mobile : '',
+     password : ''
+  })
   const [confirmPass, setConfirmPass] = useState('');
-  
   const [errorMsg , setErrorMsg] = useState('');
+
+  const handleOnChange = (e) => {
+    const {name , value} = e.target
+    setUser((prev) => (
+      {...prev, [name] : value}
+    ))
+    console.log(user)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-      const req = await axios.post('/api/login', {
-          userName,
-          Email,
-          mobile,
-          pass
+      const req = await axios.post('/api/signup', {
+   user
       })
-     console.log(res)
+      
       const res =  req.data;
-      setErrorMsg(res?.respone?.data.error)
+      console.log(res)
+      setErrorMsg(res?.respone?.data?.error)
       console.log(res?.respone?.data?.error)
   }
 
@@ -57,7 +64,8 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="text"
-              onChange={(e) => setUserName(e.target.value)}
+              name="userName"
+              onChange={handleOnChange}
               placeholder="username"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
@@ -67,7 +75,8 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="email"
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              onChange={handleOnChange}
               placeholder=" email"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
@@ -77,7 +86,8 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="tel"
-              onChange={(e)=> setMobile(e.target.value)}
+              name="mobile"
+              onChange={handleOnChange}
               placeholder="mobile number"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
@@ -87,7 +97,7 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="password"
-              onChange={(e) => setPass(e.target.value)}
+              onChange={handleOnChange}
               placeholder=" password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
@@ -97,7 +107,8 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="password"
-              onChange={(e) => setConfirmPass(e.target.value)}
+              name="password"
+              onChange={handleOnChange}
               placeholder="Confirm your password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
