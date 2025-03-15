@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 const userSchema = mongoose.Schema({
   userName : {
@@ -40,52 +38,7 @@ const userSchema = mongoose.Schema({
   }
 }, {timestamps : true});
 
-userSchema.methods.generateToken = function (){
-  return jwt.sign(
-   { userId : this._id },
-   process.env.JWT_SECRET,
-   {expiresIn : '2d'}
-  );
-}
 
-userSchema.statics.signup = async function (
-  userName, 
-  email,
-  mobile,
-  password
-){
-   try {
-    if(!userName || !email || !mobile || !password){
-       throw new Error("all feild are required");
-    };
-
-    const existingUser = await this.findOne({email});
-    if(existingUser){
-      throw new Error("user already registerd")
-    }
-
-    const existingMobile = await this.findOne({mobile});
-    if(existingMobile){
-      throw new Error("Mobile number already registerd")
-    }
-       const salt = await bcrypt.genSalt(10);
-       const hashedPass = await bcrypt.hash(password, salt);
-
-       const user = await this.create({
-        userName, 
-        email,
-        mobile,
-        password : hashedPass
-       })
-
-       const token = user.generateToken()
-
-       return {user, token};
-
-   } catch (err) {
-     throw new Error(err.message)
-   }
-}
 
 const User = mongoose.model("User", userSchema);
 

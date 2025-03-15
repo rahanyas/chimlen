@@ -25,20 +25,20 @@ const SignUp = () => {
     const {name , value} = e.target
     setUser((prev) => (
       {...prev, [name] : value}
-    ))
-    console.log(user)
+    )) 
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-      const req = await axios.post('/api/signup', {
-   user
-      })
-      
-      const res =  req.data;
-      console.log(res)
-      setErrorMsg(res?.respone?.data?.error)
-      console.log(res?.respone?.data?.error)
+    try {   
+      e.preventDefault()
+        const {data} = await axios.post('/api/signup', {
+     user
+        })
+        console.log(data);
+    } catch (err) {   
+      setErrorMsg(err?.respone?.data?.error)
+      console.log(err?.respone?.data?.error)
+    }
   }
 
 
@@ -97,6 +97,7 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="password"
+              name="password"
               onChange={handleOnChange}
               placeholder=" password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -108,7 +109,6 @@ const SignUp = () => {
             <input
               type="password"
               name="password"
-              onChange={handleOnChange}
               placeholder="Confirm your password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />

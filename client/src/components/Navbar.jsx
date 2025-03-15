@@ -4,6 +4,12 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import useUser from "../Context/userStore";
+
+
+
+
+
 const btnVariants = {
   hover: { scale: 1.1, boxShadow: "0px 0px 8px rgb(255,255,255)" },
   tap: { scale: 0.9, backgroundColor: "#34D399" },
@@ -25,9 +31,17 @@ const menuVariants = {
 };
 
 const Navbar = () => {
+  const {isUser} = useUser();
+
+  const logOut = async () => {
+     console.log('btn clicked');
+     
+  }
 
   const [isMobile, setIsMobile] = useState(false);
-
+  if(isUser === null ) return <p>
+    loading...
+  </p>
   return (
     <motion.nav
       initial={{ opacity: 0 }}
@@ -36,26 +50,31 @@ const Navbar = () => {
     >
       <h1 className="capitalize text-[20px]">chimlen</h1>
       <div className="hidden md:flex gap-6">
-          <Link to="/login">
-        <motion.button
-          variants={btnVariants}
-          whileHover="hover"
-          whileTap="tap"
-          className="rounded-full px-4 py-2 cursor-pointer"
-        >
-          Login
-        </motion.button>
-          </Link>
-          <Link to="/signup">
-        <motion.button
-          variants={btnVariants}
-          whileHover="hover"
-          whileTap="tap"
-          className="rounded-full px-4 py-2 cursor-pointer"
-        >
-          Sign-up
-        </motion.button>
-          </Link>
+        {isUser === true ? 
+                  <Link to="/login">
+                  <motion.button
+                    variants={btnVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    className="rounded-full px-4 py-2 cursor-pointer"
+                  >
+                    Login
+                  </motion.button>
+                    </Link> :
+                              <Link to="/signup">
+                              <motion.button
+                                variants={btnVariants}
+                                whileHover="hover"
+                                whileTap="tap"
+                                className="rounded-full px-4 py-2 cursor-pointer"
+                              >
+                                Sign-up
+                              </motion.button>
+                                </Link>
+
+        }
+
+
       </div>
       <div className="md:hidden">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile((prev) => !prev)}>
@@ -81,6 +100,10 @@ const Navbar = () => {
           exit="exit"
           className="fixed top-0 left-0 w-full h-fit bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden"
         >
+          {isUser ?   
+          <div>
+
+                 
             <Link to="/login">
           <motion.button
             whileHover="hover"
@@ -92,6 +115,18 @@ const Navbar = () => {
             login
           </motion.button>
             </Link>
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            variants={btnVariants}
+            exit="exit"
+            className="rounded-full px-4 py-2 cursor-pointer"
+            onClick={logOut}
+          >
+            logout
+          </motion.button>
+            </div> 
+            :
             <Link to="/signup">
           <motion.button
             whileHover="hover"
@@ -102,6 +137,9 @@ const Navbar = () => {
             sign-In
           </motion.button>
             </Link>
+            }
+
+
         </motion.div>
       )}
       </AnimatePresence>
