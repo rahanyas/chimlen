@@ -11,12 +11,12 @@ export const UserProvider = ({children}) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axiosInstance.get('/checkAuth', {withCredentials : true});
+        const res = await axiosInstance.get('/checkAuth');
         console.log(res);
-        setIsUser(res?.data)
+        setIsUser({status : res?.data?.status})
       } catch (err) {
-       console.log(err);
-       setIsUser({status : ''})
+       console.log('err from checkAuth : ',err);
+       setIsUser({status : false})
       }
     }
     checkAuth()
@@ -24,11 +24,11 @@ export const UserProvider = ({children}) => {
 
   const handleLogout = async () => {
         try {
-          const res = await axiosInstance.post('/logout', {withCredentials : true});
-          setIsUser({status : false})
+          const res = await axiosInstance.post('/logout');
+          setIsUser({status : res?.data?.status})
           console.log(res)
         } catch (err) {
-          console.log(err.message)
+          console.log(err)
         }
   }
 

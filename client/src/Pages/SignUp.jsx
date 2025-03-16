@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion"; 
-import { data, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
@@ -46,6 +46,10 @@ const SignUp = () => {
       console.log(err?.response?.data?.error);
       setIsUser({status : false})
     }
+  };
+
+  const handleLogin = () => {
+    window.location.href = "http://localhost:9000/auth/google"
   }
 
 
@@ -115,7 +119,7 @@ const SignUp = () => {
           <motion.div whileFocus={{ scale: 1.02 }}>
             <input
               type="password"
-              name="password"
+              name="confirmPassword"
               placeholder="Confirm your password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             />
@@ -137,15 +141,16 @@ const SignUp = () => {
           </div>
 
           {/* Sign In with Google */}
+        </form>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center justify-center w-full gap-3 px-4 py-3 border rounded-lg hover:bg-gray-100 cursor-pointer"
+            onClick={handleLogin}
           >
             <FcGoogle size={22} />
             Sign in with Google
           </motion.button>
-        </form>
 
         {/* Already have an account? */}
         <p className="mt-4 text-sm text-center text-gray-600">
