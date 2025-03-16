@@ -1,40 +1,44 @@
+/* eslint-disable react-refresh/only-export-components */
 
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
-const userContext = createContext(null);
+const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
-  const [isUser, setUser] = useState({
-    status : '',
-    id : ''
-  });
+  const [isUser, setIsUser] = useState({status : false});
   
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get('/api/checkAuth', {withCredentials : true});
+        const res = await axiosInstance.get('/checkAuth', {withCredentials : true});
         console.log(res);
-        if(res?.data?.status === true){
-         setUser(true);
-        }else{
-          setUser(false)
-        }
+        setIsUser(res?.data)
       } catch (err) {
        console.log(err);
-       setUser(false)
+       setIsUser({status : ''})
       }
     }
     checkAuth()
-  }, [])
+  }, []);
+
+  const handleLogout = async () => {
+        try {
+          const res = await axiosInstance.post('/logout', {withCredentials : true});
+          setIsUser({status : false})
+          console.log(res)
+        } catch (err) {
+          console.log(err.message)
+        }
+  }
 
   return (
-    <userContext.Provider value={{isUser, setUser}}>
+    <UserContext.Provider value={{isUser, setIsUser, handleLogout}}>
       {children}
-    </userContext.Provider>
+    </UserContext.Provider>
   )
 }
 
 export default function useUser(){
-  return useContext(userContext)
+  return useContext(UserContext)
 }

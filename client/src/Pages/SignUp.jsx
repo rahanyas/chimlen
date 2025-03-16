@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { data, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import axios from 'axios'
+import axiosInstance from "../utils/axiosInstance";
+import useUser from "../Context/userStore";
+
 const pageVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -11,6 +13,8 @@ const pageVariants = {
 };
 
 const SignUp = () => {
+
+  const {setIsUser} = useUser()
 
   const [user, setUser] = useState({
      userName : '',
@@ -31,13 +35,16 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     try {   
       e.preventDefault()
-        const {data} = await axios.post('/api/signup', {
-     user
-        })
+        const {data} = await axiosInstance.post('/signup', 
+        user,
+        {withCredentials : true}
+        )
         console.log(data);
+        setIsUser({status : true})
     } catch (err) {   
-      setErrorMsg(err?.respone?.data?.error)
-      console.log(err?.respone?.data?.error)
+      setErrorMsg(err?.response?.data?.error)
+      console.log(err?.response?.data?.error);
+      setIsUser({status : false})
     }
   }
 

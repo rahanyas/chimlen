@@ -5,12 +5,11 @@ import jwt from 'jsonwebtoken'
 
 export const handleSignup = async (req, res) => {
   try {
-    const { user } = req.body;
-    const {userName, email, mobile, password} = user
+    const {userName, email, mobile, password} = req.body
+   
+    const salt =  bcrypt.genSaltSync(10);
 
-    const salt = await bcrypt.genSalt(10);
-
-    const hashedPasss = await bcrypt.hash(password, salt)
+    const hashedPasss =  bcrypt.hashSync(password, salt)
 
     const newUser = await User.create({
         userName,
@@ -19,12 +18,11 @@ export const handleSignup = async (req, res) => {
         password : hashedPasss
     });
 
-    const token = generateToken(newUser._id, res);
-    console.log(token)
- 
     if(!newUser){
       return res.status(400).json({error : 'user not saved'})
     };
+
+    const token = generateToken(newUser._id, res);
 
     return res.status(200).json({data : newUser})
   } catch (error) {
@@ -34,18 +32,35 @@ export const handleSignup = async (req, res) => {
 };
 
 export const checkUser = async (req, res) => {
-   const token = req.cookies.token;
-   if(!token){
-    return res.status(400).json({status : false})
-   };
-   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-   console.log(decoded);
-   const user = await User.find({_id : decoded.id})
-   console.log(user);
-   
-   if(!decoded){
-    return res.status(400).json({status : false})
-   };
+  try {
+    const token = req.cookies.token;
+    
+    if(!token){
+     return res.status(400).json({status : false, msg : 'no token provided'})
+    };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
 
-   return res.status(200).json({status : true, user : user._id})
+    const user = await User.findOne({_id : decoded.id})
+    console.log('user : ', user);
+    if(!user){
+      return res.status(400).json({status : false, msg : 'user not found'})
+    };
+ 
+    return res.status(200).json({status : true})
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).json({status : false , msg : 'internal server error'})
+  }
+};
+
+
+export const handleLogout = async (req, res) => {
+  try {
+    res.cookie("token", "", { expires: new Date(0), httpOnly: true });
+    return res.status(200).json({status : false, msg : 'user logout successfully'})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({msg : 'internal server error'})
+  }
 }
