@@ -13,7 +13,7 @@ const generateToken =  (userId, res) => {
 
     return token;
   } catch (err) {
-    console.log(err);
+    console.log('error in generateToken : ',err);
     return res.status(400).json({msg : 'Token generation failed'})
   }
 

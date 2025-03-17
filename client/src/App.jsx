@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-
 import Layout from "./Layout/Structure";
 import Home from "./Pages/Home";
-
 import React, { lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import LoadingScreen from "./components/Loading";
@@ -44,8 +42,8 @@ const AppRoutes = () => {
 
 const App = () => {
   return (
-    <UserProvider> 
-      <Router>
+    <UserProvider>
+      <Router> 
         <AppRoutes />
       </Router>
     </UserProvider>

@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion"; 
-import {  Link } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import axiosInstance from "../utils/axiosInstance";
 import useUser from "../Context/userStore";
 
 const pageVariants = {
@@ -14,38 +13,20 @@ const pageVariants = {
 
 const SignUp = () => {
 
-  const {setIsUser} = useUser()
-
-  const [user, setUser] = useState({
-     userName : '',
-     email : '',
-     mobile : '',
-     password : ''
-  })
+  const {errorMsg, handleSignup, setUser} = useUser();
   const [confirmPass, setConfirmPass] = useState('');
-  const [errorMsg , setErrorMsg] = useState('');
 
+  let Navigate = useNavigate()
   const handleOnChange = (e) => {
     const {name , value} = e.target
     setUser((prev) => (
       {...prev, [name] : value}
     )) 
-  }
+  };
 
   const handleSubmit = async (e) => {
-    try {   
-      e.preventDefault()
-        const {data} = await axiosInstance.post('/signup', 
-        user,
-        {withCredentials : true}
-        )
-        console.log(data);
-        setIsUser({status : true})
-    } catch (err) {   
-      setErrorMsg(err?.response?.data?.error)
-      console.log(err?.response?.data?.error);
-      setIsUser({status : false})
-    }
+       e.preventDefault();
+       handleSignup(confirmPass, Navigate)
   };
 
   const handleLogin = () => {
@@ -122,6 +103,7 @@ const SignUp = () => {
               name="confirmPassword"
               placeholder="Confirm your password"
               className="w-full p-3 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+              onChange={(e) => setConfirmPass(e.target.value)}
             />
           </motion.div>
 

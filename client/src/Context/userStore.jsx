@@ -7,6 +7,37 @@ const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
   const [isUser, setIsUser] = useState({status : false});
+
+  const [user, setUser] = useState({
+    userName : '',
+    email : '',
+    password: '',
+    mobile : ''
+  });
+
+  const [errMsg, setErrMsg] = useState('');
+
+  const handleSignup = async (cp, nav) => {
+    if (!user.userName || !user.email || !user.mobile || !user.password || !cp) {
+      setErrMsg("All fields are required");
+      return;
+    }
+    if(user.password !== cp){
+      setErrMsg("password do not match");
+      return;
+    };
+
+    try {
+      const {data} = await axiosInstance.post('/signup', user);
+      console.log(data);
+      setIsUser({status : true});
+      nav('/') 
+    } catch (err) {
+      setErrMsg(err?.response?.data?.error || 'signup failed');
+      console.log(err?.response?.data?.error);
+      setIsUser({status : false})
+    }
+  }
   
   useEffect(() => {
     const checkAuth = async () => {
@@ -15,8 +46,12 @@ export const UserProvider = ({children}) => {
         console.log(res);
         setIsUser({status : res?.data?.status})
       } catch (err) {
-       console.log('err from checkAuth : ',err);
-       setIsUser({status : false})
+        console.log('Error from checkAuth:', err?.response?.data?.msg || err.message)
+        if (err.response?.status === 400) {
+          console.log("User is not authenticated");
+        }
+    
+        setIsUser({ status: false });
       }
     }
     checkAuth()
@@ -33,7 +68,7 @@ export const UserProvider = ({children}) => {
   }
 
   return (
-    <UserContext.Provider value={{isUser, setIsUser, handleLogout}}>
+    <UserContext.Provider value={{isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg}}>
       {children}
     </UserContext.Provider>
   )

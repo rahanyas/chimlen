@@ -7,6 +7,9 @@ export const handleSignup = async (req, res) => {
   try {
     const {userName, email, mobile, password} = req.body
    
+    if(!password || !email || !mobile){
+      return res.status(400).json({msg : 'all feilds are required'})
+    }
     const salt =  bcrypt.genSaltSync(10);
 
     const hashedPasss =  bcrypt.hashSync(password, salt)
@@ -15,7 +18,8 @@ export const handleSignup = async (req, res) => {
         userName,
         email,
         mobile,
-        password : hashedPasss
+        password : hashedPasss,
+        provider : "local"
     });
 
     if(!newUser){

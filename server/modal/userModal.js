@@ -18,8 +18,8 @@ const userSchema = mongoose.Schema({
   },
   mobile : {
      type : Number,
-     required : true,
      unique : true,
+     sparse : true,
      validate : {
       validator : (value) => /^[6-9]\d{9}$/.test(value),
       message : "invalid mobile number"
@@ -27,10 +27,19 @@ const userSchema = mongoose.Schema({
   },
   password : {
     type : String,
-    required : true
   },
   profilePic : {
     type : String
+  },
+  googleId : {
+   type : String,
+   unique : true,
+   sparse : true,
+  },
+  provider : {
+    type : String,
+    required : true,
+    enum : ['local', 'google']
   },
   active : {
     type : Boolean,

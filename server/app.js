@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './Routes/UserRoutes.js'
 import connect_db from './config/db.js' ;
 import generateToken from './utils/createToken.js';
+import User from './modal/userModal.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -26,10 +27,25 @@ passport.use(new GoogleStrategy(
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
     callbackURL : '/auth/google/callback'
   },
-  (accesToken, refreshToken, profile, done) => {
-    console.log("user profile : ", profile);
-    return done(null, profile)
-    
+  async (accesToken, refreshToken, profile, done) => {
+    try {
+      let user = await User.findOne({googleId : profile.id});
+
+      if(!user){
+        user = new User({
+          googleId : profile.id,
+          userName : profile.displayName,
+          email : profile.emails[0].value,
+          profilePic : profile.photos[0].value,
+          provider : 'google'
+        });
+
+        await user.save()
+      };
+      return done(null, user)
+    } catch (err) {
+      return done(err, null)
+    }
   }
 ));
 
