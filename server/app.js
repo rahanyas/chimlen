@@ -1,10 +1,13 @@
 import express from 'express';
+// middleware for authentication
 import passport from 'passport';
+//to implent google login
 import {Strategy as GoogleStrategy} from "passport-google-oauth20"
 import dotenv from 'dotenv';
 dotenv.config()
 
 import cors from 'cors';
+//to parse cookies send by client
 import cookieParser from 'cookie-parser';
 
 import userRoutes from './Routes/UserRoutes.js'
@@ -17,7 +20,9 @@ const port = process.env.PORT;
 connect_db();
 
 app.use(passport.initialize());
-app.use(cookieParser())
+app.use(cookieParser());
+
+//parses incoming json requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

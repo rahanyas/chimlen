@@ -25,8 +25,8 @@ export const handleSignup = async (req, res) => {
     if(!newUser){
       return res.status(400).json({error : 'user not saved'})
     };
-
-    const token = generateToken(newUser._id, res);
+     
+    generateToken(newUser._id, res);
 
     return res.status(200).json({data : newUser})
   } catch (error) {
@@ -40,7 +40,7 @@ export const checkUser = async (req, res) => {
     const token = req.cookies.token;
     
     if(!token){
-     return res.status(400).json({status : false, msg : 'no token provided'})
+     return res.json({status : false, msg : 'no token provided'})
     };
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded);

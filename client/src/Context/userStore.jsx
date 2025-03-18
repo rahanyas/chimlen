@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axiosInstance from "../utils/axiosInstance";
 
 const UserContext = createContext(null);
@@ -17,28 +17,7 @@ export const UserProvider = ({children}) => {
 
   const [errMsg, setErrMsg] = useState('');
 
-  const handleSignup = async (cp, nav) => {
-    if (!user.userName || !user.email || !user.mobile || !user.password || !cp) {
-      setErrMsg("All fields are required");
-      return;
-    }
-    if(user.password !== cp){
-      setErrMsg("password do not match");
-      return;
-    };
 
-    try {
-      const {data} = await axiosInstance.post('/signup', user);
-      console.log(data);
-      setIsUser({status : true});
-      nav('/') 
-    } catch (err) {
-      setErrMsg(err?.response?.data?.error || 'signup failed');
-      console.log(err?.response?.data?.error);
-      setIsUser({status : false})
-    }
-  }
-  
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -46,7 +25,7 @@ export const UserProvider = ({children}) => {
         console.log(res);
         setIsUser({status : res?.data?.status})
       } catch (err) {
-        console.log('Error from checkAuth:', err?.response?.data?.msg || err.message)
+        console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {
           console.log("User is not authenticated");
         }
@@ -57,15 +36,45 @@ export const UserProvider = ({children}) => {
     checkAuth()
   }, []);
 
-  const handleLogout = async () => {
-        try {
-          const res = await axiosInstance.post('/logout');
-          setIsUser({status : res?.data?.status})
-          console.log(res)
-        } catch (err) {
-          console.log(err)
-        }
-  }
+  const handleSignup = useCallback(
+    async (confirmPass, navigate) => {
+      if (!user.userName || !user.email || !user.mobile || !user.password || !confirmPass) {
+        setErrMsg("All fields are required");
+        return;
+      }
+      if(user.password !== confirmPass){
+        setErrMsg("password do not match");
+        return;
+      };
+  
+      try {
+        const {data} = await axiosInstance.post('/signup', user);
+        console.log(data);
+        setIsUser({status : true});
+        navigate('/') 
+      } catch (err) {
+        setErrMsg(err?.response?.data?.error || 'signup failed');
+        console.log(err?.response?.data?.error);
+        setIsUser({status : false})
+      }
+    },[user],
+  );
+  
+
+  
+
+  const handleLogout =useCallback(
+    async () => {
+      try {
+        const res = await axiosInstance.post('/logout');
+        setIsUser({status : res?.data?.status})
+        console.log(res)
+      } catch (err) {
+        console.log(err)
+      }
+  },[],
+  );
+
 
   return (
     <UserContext.Provider value={{isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg}}>
