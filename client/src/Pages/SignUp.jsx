@@ -17,23 +17,19 @@ const errorVariants = {
 };
 
 const SignUp = () => {
-  const { errMsg, handleSignup, setUser } = useUser();
+  const { errMsg, handleSignup, setUser , googleLogin, handleOnChange} = useUser();
+
   const [confirmPass, setConfirmPass] = useState('');
   let Navigate = useNavigate();
 
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit =  (e) => {
     e.preventDefault();
     handleSignup(confirmPass, Navigate);
   };
 
-  const handleLogin = () => {
-    window.location.href = "http://localhost:9000/auth/google";
-  };
+
 
   return (
     <motion.div
@@ -139,7 +135,7 @@ const SignUp = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center justify-center w-full gap-3 px-4 py-3 border rounded-lg hover:bg-gray-100 cursor-pointer"
-          onClick={handleLogin}
+          onClick={googleLogin}
         >
           <FcGoogle size={22} />
           Sign in with Google

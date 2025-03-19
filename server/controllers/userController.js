@@ -35,6 +35,33 @@ export const handleSignup = async (req, res) => {
 
 };
 
+export const handleLogin = async (req, res) => {
+  try {
+    const {email, password} = req.body;
+    if(!email || !password){
+     return res.status(400).json({msg : 'all feilds are required'})
+    };
+     
+    const user = await User.findOne({email : email});
+    if(!user){
+     return res.status(400).json({msg : 'User not found'})
+    };
+ 
+    const isMatch =  bcrypt.compareSync(password, user.password);
+ 
+    if(!isMatch){
+     return res.status(400).json({msg : "invalid credentials"})
+    }
+
+    generateToken(user._id, res);
+    return res.status(200).json({msg : 'Login successfull'})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({msg : 'internal server error'})
+  }
+
+}
+
 export const checkUser = async (req, res) => {
   try {
     const token = req.cookies.token;

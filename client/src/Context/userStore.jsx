@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axiosInstance from "../utils/axiosInstance";
-
 const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
@@ -16,7 +15,7 @@ export const UserProvider = ({children}) => {
   });
 
   const [errMsg, setErrMsg] = useState('');
-
+  
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,6 +34,11 @@ export const UserProvider = ({children}) => {
     }
     checkAuth()
   }, []);
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSignup = useCallback(
     async (confirmPass, navigate) => {
@@ -61,9 +65,7 @@ export const UserProvider = ({children}) => {
   );
   
 
-  
-
-  const handleLogout =useCallback(
+  const handleLogout = useCallback(
     async () => {
       try {
         const res = await axiosInstance.post('/logout');
@@ -75,9 +77,32 @@ export const UserProvider = ({children}) => {
   },[],
   );
 
+  const handleLogin =  useCallback(
+    async (navigate) => {
+      try {
+        const {email, password} = user;
+        if(!email || !password){
+          setErrMsg('all feids are required');
+          return;
+        }
+          const res = await axiosInstance.post('/login',{email, password} );
+          console.log(res);
+          setIsUser({status : true});
+          navigate('/')
+      } catch (err) {
+        console.log(err);
+        setErrMsg(err?.response?.data?.msg)
+        setIsUser({status : false})
+      }
+    },[user]
+  );
+
+  const googleLogin = () => {
+    window.location.href = "http://localhost:9000/auth/google";
+  };
 
   return (
-    <UserContext.Provider value={{isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg}}>
+    <UserContext.Provider value={{isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg, handleLogin, googleLogin, handleOnChange}}>
       {children}
     </UserContext.Provider>
   )
