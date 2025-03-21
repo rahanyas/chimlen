@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import useUser from "../Context/userStore";
 
 const Home = () => {
+
+  const {isUser} = useUser();
   return (
     <div className="relative bg-gradient-to-b from-green-50 to-green-100">
       <section className="overflow-hidden">
@@ -27,22 +30,41 @@ const Home = () => {
                   >
                     Connect, chat, and call with ease using our feature-rich chat web application.
                   </motion.p>
-                  <Link to='/home'>
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                    whileHover={{
-                      scale: 1.1,
-                      boxShadow: "0px 0px 10px rgba(72, 187, 120, 0.8)",
-                    }}
-                    whileTap={{ scale: 0.9, backgroundColor: "#22c55e" }}
-                    className="inline-flex items-center px-6 py-5 text-base font-semibold text-black transition-all duration-200 bg-green-300 mt-9 rounded-lg hover:bg-green-400 focus:bg-green-400 cursor-pointer"
-                  >
-                    Get Started for Free
-                  </motion.button>
-                  
-                  </Link>
+                  {isUser.status === true ? (
+  <Link to="/home">
+    <motion.button
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.6 }}
+      whileHover={{
+        scale: 1.1,
+        boxShadow: "0px 0px 10px rgba(72, 187, 120, 0.8)",
+      }}
+      whileTap={{ scale: 0.9, backgroundColor: "#22c55e" }}
+      className="inline-flex items-center px-6 py-5 text-base font-semibold text-black transition-all duration-200 bg-green-300 mt-9 rounded-lg hover:bg-green-400 focus:bg-green-400 cursor-pointer"
+    >
+      get started
+    </motion.button>
+  </Link>
+) : (
+  <Link to="/signup">
+    <motion.button
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.6 }}
+      whileHover={{
+        scale: 1.1,
+        boxShadow: "0px 0px 10px rgba(72, 187, 120, 0.8)",
+      }}
+      whileTap={{ scale: 0.9, backgroundColor: "#22c55e" }}
+      className="inline-flex items-center px-6 py-5 text-base font-semibold text-black transition-all duration-200 bg-green-300 mt-9 rounded-lg hover:bg-green-400 focus:bg-green-400 cursor-pointer"
+    >
+      Sign up for Free
+    </motion.button>
+  </Link>
+)}
+
+
                 </div>
 
                 <div className="mt-8 border-t-2 border-black lg:mt-auto sm:mt-14">
