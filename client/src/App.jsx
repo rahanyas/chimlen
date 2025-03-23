@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Layout/Structure";
-import Home from "./Pages/Home";
+import LandingPage from "./Pages/LandingPage";
 import React, { lazy, Suspense } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence,motion } from "framer-motion";
 import LoadingScreen from "./components/Loading";
 import { UserProvider } from "./Context/userStore";
+import Home from "./Pages/Home";
 
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -12,31 +13,36 @@ const Login = lazy(() => import("./Pages/Login"));
 // why i used key in routes?
 // without setting key ,the animatePresence might not detect the transition properly, leading to broken animations
 
+{/* used location here to ensure that animatePresence detects route change */}
+{/* key forces to routes to re-render when the path changes to ensure smooth animations */}
+
 const AppRoutes = () => {
-  const location = useLocation(); 
+  const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
-        <Suspense fallback={<LoadingScreen/>}>
-        {/* used location here to ensure that animatePresence detects route change */}
-      <Routes location={location} key={location.pathname}>
-        {/* key forces to routes to re-render when the path changes to ensure smooth animations */}
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-        </Route>
-        <Route
-          path="/signup"
-          element={<SignUp />}
-        />
-        <Route
-          path="/login"
-          element={<Login /> }
-        />
-      </Routes>
+      <Suspense fallback={<LoadingScreen />}>
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<LandingPage />} />
+              <Route path="/home" element={<Home />} />
+            </Route>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </motion.div>
       </Suspense>
     </AnimatePresence>
   );
 };
+
 
 const App = () => {
   return (

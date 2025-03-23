@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 const Layout = () => {
     return (
-      <div>
+      <div className="pt-20">
         <Navbar />
         <Outlet />
         <Footer />

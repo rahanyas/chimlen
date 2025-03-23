@@ -27,8 +27,7 @@ export const UserProvider = ({children}) => {
         console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {
           console.log("User is not authenticated");
-        }
-    
+        }  
         setIsUser({ status: false });
       }
     }
