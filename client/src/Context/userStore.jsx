@@ -52,11 +52,12 @@ export const UserProvider = ({children}) => {
       };
   
       try {
-        const {data} = await axiosInstance.post('/signup', user);
-        console.log(data);
+        const res = await axiosInstance.post('/signup', user);
+        console.log(res);
         setIsUser({status : true});
         navigate('/') 
       } catch (err) {
+        console.log(err)
         setErrMsg(err?.response?.data?.error || 'signup failed');
         console.log(err?.response?.data?.error);
         setIsUser({status : false})

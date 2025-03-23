@@ -123,12 +123,12 @@ const SignUp = () => {
             Sign Up
           </motion.button>
 
+        </form>
           {/* OR Divider */}
           <div className="relative flex items-center justify-center w-full my-4">
             <hr className="w-full border-gray-300" />
             <span className="absolute px-2 text-sm text-gray-500 bg-white">OR</span>
           </div>
-        </form>
 
         {/* Sign In with Google */}
         <motion.button

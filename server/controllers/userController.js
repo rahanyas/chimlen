@@ -9,7 +9,14 @@ export const handleSignup = async (req, res) => {
    
     if(!password || !email || !mobile){
       return res.status(400).json({msg : 'all feilds are required'})
-    }
+    };
+
+    const isExistingUser = await User.findOne({email : email});
+
+    if(isExistingUser){
+      return res.status(400).json({error : 'user already exits'});
+    };
+    
     const salt =  bcrypt.genSaltSync(10);
 
     const hashedPasss =  bcrypt.hashSync(password, salt)
@@ -46,6 +53,10 @@ export const handleLogin = async (req, res) => {
     if(!user){
      return res.status(400).json({msg : 'User not found'})
     };
+
+    if(user.provider.includes('google')){
+      return res.status(400).json({msg : "This email is linked to google.please log in with google account"})
+    }
  
     const isMatch =  bcrypt.compareSync(password, user.password);
  
