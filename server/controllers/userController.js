@@ -96,6 +96,24 @@ export const checkUser = async (req, res) => {
   }
 };
 
+export const oAuth = async (aToken, rToken, profile, done) => {
+  try {
+    let user = await User.findOne({googleId : profile.id});
+    if(!user){
+      user = new User({
+        googleId : profile.id,
+        userName : profile.displayName,
+        email : profile.emails[0].value,
+        profilePic : profile.photos[0].value,
+        provider : 'google'
+      })
+      await user.save()
+    };
+    return done(null, user)
+  } catch (err) {
+    return done(err, null)
+  }
+}
 
 export const handleLogout = async (req, res) => {
   try {
