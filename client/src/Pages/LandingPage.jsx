@@ -32,21 +32,20 @@ const LandingPage = () => {
                   </motion.p>
                   {isUser.status === true ? (
   <Link to="/home">
-    <motion.button
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.6 }}
-      whileHover={{
-        scale: 1.1,
-        boxShadow: "0px 0px 20px rgba(72, 187, 120, 0.8)",
-      }}
-      whileTap={{ scale: 0.95, backgroundColor: "#16A34A" }}
-     className="inline-flex items-center px-6 py-4 text-lg font-semibold text-white 
-  bg-green-500 shadow-md transition-all duration-300 hover:bg-green-600 focus:bg-green-600 rounded-lg"
-    >
-      get started
-    </motion.button>
-  </Link>
+  <motion.button
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    whileHover={{
+      scale: 1.1,
+      boxShadow: "0px 0px 10px rgba(72, 187, 120, 0.8)",
+    }}
+    whileTap={{ scale: 0.9, backgroundColor: "#22c55e" }}
+    className="inline-flex items-center px-6 py-5 text-base font-semibold text-black transition-all duration-200 bg-green-300 mt-9 rounded-lg hover:bg-green-400 focus:bg-green-400 cursor-pointer"
+  >
+    get started
+  </motion.button>
+</Link>
 ) : (
   <Link to="/signup">
     <motion.button
