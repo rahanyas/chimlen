@@ -39,7 +39,7 @@ passport.use(new GoogleStrategy(
     ? `${process.env.VERCEL_URL}/auth/google/callback`
     : "http://localhost:9000/auth/google/callback"
   }, oAuth));
-
+console.log(process.env.VERCEL_URL)
 app.use(cors({
   origin : function (origin, callaback){
     console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
