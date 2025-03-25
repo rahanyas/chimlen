@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Layout from "./Layout/Structure";
 import LandingPage from "./Pages/LandingPage";
 import React, { lazy, Suspense } from "react";
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import LoadingScreen from "./components/Loading";
 import { UserProvider } from "./Context/userStore";
 import Home from "./Pages/Home";

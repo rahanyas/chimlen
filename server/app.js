@@ -40,14 +40,15 @@ passport.use(new GoogleStrategy(
     : "http://localhost:9000/auth/google/callback"
   }, oAuth));
 
+
 app.use(cors({
-  origin : function (origin, callaback){
+  origin : function (origin, callback){
     console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
     const allowedOrigins = process.env.FRONTEND_URL.split(',')
     if(!origin || allowedOrigins.includes(origin)){
-      callaback(null, true)
+      callback(null, true)
     }else{
-      callaback(new Error('Not Allowed by cors'))
+      callback(new Error('Not Allowed by cors'))
     }
   },
   credentials : true
