@@ -98,7 +98,8 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    window.location.href = "http://localhost:9000/auth/google";
+    const baseUrl = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_VERCEL_URL
+    window.location.href = `${baseUrl}/auth/google`
   };
 
   return (
