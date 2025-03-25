@@ -98,7 +98,7 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_VERCEL_URL
+    const baseUrl = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_VERCEL_URL
     window.location.href = `${baseUrl}/auth/google`
   };
 
