@@ -12,7 +12,8 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect 
 }), 
   (req, res) => {
     const token = generateToken(req.user, res);
-    res.redirect(process.env.FRONTEND_URL)
+    const redirectUrl = process.env.NODE_ENV === 'production' ? process.env.VERCEL_URL : "http://localhost:5173/"
+    res.redirect(redirectUrl)
   }
 );
 

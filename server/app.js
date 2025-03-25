@@ -22,12 +22,7 @@ import oAuthRoutes from "./Routes/oAuth.Routes.js"
 const app = express();
 const port = process.env.PORT;
 
-try {
-  connect_db();
-} catch (err) {
-  console.log('database connetction failed', err);
-  process.exit(1)
-}
+connect_db();
 
 
 app.use(passport.initialize());
@@ -40,14 +35,25 @@ passport.use(new GoogleStrategy(
   {
     clientID : process.env.GOOGLE_CLIENT_ID,
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL : '/auth/google/callback'
+    callbackURL :  process.env.NODE_ENV === "production"
+    ? `${process.env.VERCEL_URL}/auth/google/callback`
+    : "http://localhost:9000/auth/google/callback"
   }, oAuth));
 
-
 app.use(cors({
-  origin : process.env.FRONTEND_URL,
+  origin : function (origin, callaback){
+    console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
+    const allowedOrigins = process.env.FRONTEND_URL.split(',');
+    console.log(allowedOrigins)
+    if(!origin || allowedOrigins.includes(origin)){
+      callaback(null, true)
+      console.log(callaback)
+    }else{
+      callaback(new Error('Not Allowed by cors'))
+    }
+  },
   credentials : true
-}));
+}))
 
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes)
