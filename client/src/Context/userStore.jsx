@@ -98,9 +98,8 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    const baseUrl = import.meta.env.NODE_ENV !== "production" ? import.meta.env.VITE_BACKEND_URL : import.meta.env.VITE_PRODUCTION_BACKEND_URL;
-    console.log(baseUrl);
-    
+    const baseUrl = import.meta.env.NODE_ENV === "production" ? import.meta.env.VITE_BACKEND_URL : import.meta.env.PRODUCTION_BACKEND_URLL;
+   
     window.location.href = `${baseUrl}/auth/google`
     
   };
