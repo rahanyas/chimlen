@@ -36,18 +36,16 @@ passport.use(new GoogleStrategy(
     clientID : process.env.GOOGLE_CLIENT_ID,
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
     callbackURL :  process.env.NODE_ENV === "production"
-    ? `${process.env.VERCEL_URL}/auth/google/callback`
+    ? `${process.env.PRODUCTION_BACKEND_URL}/auth/google/callback`
     : "http://localhost:9000/auth/google/callback"
   }, oAuth));
-console.log(process.env.VERCEL_URL)
+
 app.use(cors({
   origin : function (origin, callaback){
     console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
-    const allowedOrigins = process.env.FRONTEND_URL.split(',');
-    console.log(allowedOrigins)
+    const allowedOrigins = process.env.FRONTEND_URL.split(',')
     if(!origin || allowedOrigins.includes(origin)){
       callaback(null, true)
-      console.log(callaback)
     }else{
       callaback(new Error('Not Allowed by cors'))
     }
