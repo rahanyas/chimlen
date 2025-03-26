@@ -98,7 +98,7 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    const baseUrl = import.meta.env.NODE_ENV !== "production" ? import.meta.env.VITE_BACKEND_URL : import.meta.env.VITE_PRODUCTION_BACKEND_URL;
+    const baseUrl = import.meta.env.NODE_ENV !== "production" ? "http://localhost:9000" : "https://chimlen-main.vercel.app";
    
     console.log(baseUrl);
     
