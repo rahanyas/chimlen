@@ -98,12 +98,10 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    const baseUrl = import.meta.env.NODE_ENV !== "production" ? "http://localhost:9000" : "https://chimlen-main.vercel.app";
+    const baseUrl = import.meta.env.NODE_ENV === "development" ? "http://localhost:9000" : "https://chimlen-main.vercel.app";
    
-    console.log(baseUrl);
-    
-    window.location.href = `${baseUrl}/auth/google`
-    
+    console.log(baseUrl);   
+    window.location.href = `${baseUrl}/auth/google` 
   };
 
   return (
