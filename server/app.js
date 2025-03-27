@@ -42,15 +42,7 @@ passport.use(new GoogleStrategy(
 
 // console.log(process.env.NODE_ENV);
 app.use(cors({
-  origin : function (origin, callback){
-    console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
-    const allowedOrigins = process.env.FRONTEND_URL.split(',')
-    if(!origin || allowedOrigins.includes(origin)){
-      callback(null, true)
-    }else{
-      callback(new Error('Not Allowed by cors'))
-    }
-  },
+  origin : ["http://localhost:5173","https://chimlen-main.vercel.app"],
   credentials : true
 }))
 
