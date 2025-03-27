@@ -35,12 +35,12 @@ passport.use(new GoogleStrategy(
   {
     clientID : process.env.GOOGLE_CLIENT_ID,
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL :  process.env.NODE_ENV === "development"
-    ? "http://localhost:9000/auth/google/callback"
-   : "https://chimlen-main.vercel.app/auth/google/callback"
+    callbackURL :  process.env.NODE_ENV !== "development"
+    ? "https://chimlen-main.vercel.app/auth/google/callback"
+    : "http://localhost:9000/auth/google/callback"
   }, oAuth));
 
-
+// console.log(process.env.NODE_ENV);
 app.use(cors({
   origin : function (origin, callback){
     console.log('Requested origin:', origin || 'undefined (possibly server-side request)')
