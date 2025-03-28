@@ -43,7 +43,7 @@ const Home = () => {
         <h1>user name</h1>
         <div className="flex border ">
           <h1>audio call</h1>
-          <h1>vedio call</h1>
+          <h1>vedio calls</h1>
         </div>
        </div>
      </section>

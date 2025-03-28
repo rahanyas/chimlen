@@ -15,7 +15,7 @@ router.get('/google/callback', passport.authenticate('google', {
     // console.log(process.env.NODE_ENV)
     const token = generateToken(req.user, res);
     const redirectUrl = process.env.NODE_ENV !== 'development' ? "https://chimlen-main.vercel.app/": "http://localhost:5173/" 
-    console.log(redirectUrl);
+    console.log('redirect url:',redirectUrl);
     res.redirect(redirectUrl)
   }
 );

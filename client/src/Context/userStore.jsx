@@ -100,7 +100,7 @@ export const UserProvider = ({children}) => {
   const googleLogin = () => {
     const baseUrl = import.meta.env.VITE_NODE_ENV === "development" ? import.meta.env.VITE_BACKEND_URL : import.meta.env.VITE_PRODUCTION_BACKEND_URL;
    console.log(import.meta.env.NODE_ENV);
-    console.log(baseUrl);   
+    console.log('base url : ', baseUrl);   
     window.location.href = `${baseUrl}/auth/google` 
   };
 
