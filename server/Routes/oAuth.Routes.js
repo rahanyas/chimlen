@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import passport from 'passport';
 import generateToken from '../utils/createToken.js';
+import url from 'url'
 
 router.get('/google', passport.authenticate('google', {
   scope : ["profile", "email"]
@@ -12,9 +13,12 @@ router.get('/google/callback', passport.authenticate('google', {
   session : false
 }), 
   (req, res) => {
-    // console.log(process.env.NODE_ENV)
+    let q = url.parse(req.url, true).query;
+    if(q.error) {
+      console.log('Error : ', q.error);   
+    }
     const token = generateToken(req.user, res);
-    const redirectUrl = process.env.NODE_ENV !== 'development' ? "https://chimlen-main.vercel.app/": "http://localhost:5173/" 
+    const redirectUrl = process.env.NODE_ENV === 'development' ? "http://localhost:5173/" : "https://chimlen-main.vercel.app/"
     console.log('redirect url:',redirectUrl);
     res.redirect(redirectUrl)
   }
