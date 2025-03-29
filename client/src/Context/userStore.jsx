@@ -2,6 +2,15 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import axiosInstance from "../utils/axiosInstance";
+
+const NODE_ENV  = import.meta.env.VITE_NODE_ENV ;
+console.log(NODE_ENV);
+const PROD = import.meta.env.VITE_PRODUCTION_BACKEND_URL;
+console.log(PROD)
+const DEV = import.meta.env.VITE_BACKEND_URL
+console.log(DEV);
+
+
 const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
@@ -98,7 +107,7 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    const baseUrl = import.meta.env.VITE_NODE_ENV === "development" ? import.meta.env.VITE_BACKEND_URL : import.meta.env.VITE_PRODUCTION_BACKEND_URL;
+    const baseUrl = NODE_ENV === "development" ? DEV : PROD
    console.log(import.meta.env.NODE_ENV);
     console.log('base url : ', baseUrl);   
     window.location.href = `${baseUrl}/auth/google` 
