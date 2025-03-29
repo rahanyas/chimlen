@@ -1,20 +1,25 @@
+/* eslint-disable no-unused-vars */
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Layout/Structure";
 import LandingPage from "./Pages/LandingPage";
 import React, { lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import LoadingScreen from "./components/Loading";
-import { UserProvider } from "./Context/userStore";
-import Home from "./Pages/Home";
+import  { UserProvider } from "./Context/userStore";
+import { ProtectedRoute } from "./components/ProtectedRoutes";
 
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
+const Home = lazy(() => import('./Pages/Home'))
+
 
 // why i used key in routes?
 // without setting key ,the animatePresence might not detect the transition properly, leading to broken animations
 
 {/* used location here to ensure that animatePresence detects route change */}
 {/* key forces to routes to re-render when the path changes to ensure smooth animations */}
+
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -32,10 +37,14 @@ const AppRoutes = () => {
           <Routes location={location}>
             <Route path="/" element={<Layout />}>
               <Route index element={<LandingPage />} />
-              <Route path="/home" element={<Home />} />
             </Route>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route  path="/home" element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+              }/>
           </Routes>
         </motion.div>
       </Suspense>

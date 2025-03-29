@@ -84,7 +84,7 @@ export const checkUser = async (req, res) => {
     console.log(decoded);
 
     const user = await User.findOne({_id : decoded.id})
-    console.log('user : ', user);
+    // console.log('user : ', user);
     if(!user){
       return res.status(400).json({status : false, msg : 'user not found'})
     };

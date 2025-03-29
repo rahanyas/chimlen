@@ -25,23 +25,20 @@ const port = process.env.PORT;
 connect_db();
 
 
-
-
-
 app.use(passport.initialize());
 app.use(cookieParser());
 
 //parses incoming json requests
 app.use(express.json());
-
+app.use(express.urlencoded({extended : true}))
 passport.use(new GoogleStrategy(
   {
     clientID : process.env.GOOGLE_CLIENT_ID,
     clientSecret : process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL :  process.env.NODE_ENV === "development" ? "http://localhost:5173/auth/google/callback" : "https://chimlen-main.vercel.app/auth/google/callback"
+    callbackURL :  process.env.NODE_ENV === "development" ? "http://localhost:9000/auth/google/callback" : "https://chimlen-main.vercel.app/auth/google/callback"
     }, oAuth));
 
-// console.log(process.env.NODE_ENV);
+
 app.use(cors({
   origin : ["http://localhost:5173","https://chimlen-main.vercel.app"],
   credentials : true

@@ -4,6 +4,9 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import axiosInstance from "../utils/axiosInstance";
 
 
+ const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen-main.vercel.app";
+ console.log('base url :', baseUrl);
+ 
 
 const UserContext = createContext(null);
 
@@ -94,14 +97,13 @@ export const UserProvider = ({children}) => {
           navigate('/')
       } catch (err) {
         console.log(err);
-        setErrMsg(err?.response?.data?.msg)
+        setErrMsg(err?.response?.data?.msg || "Login failed")
         setIsUser({status : false})
       }
     },[user]
   );
 
   const googleLogin = () => {
-     const baseUrl = import.meta.env.VITE_NODE_ENV === "development" ? "http://localhost:9000" : "https://chimlen-main.vercel.app"
     window.location.href = `${baseUrl}/auth/google` 
   };
 
