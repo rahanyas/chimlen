@@ -20,7 +20,6 @@ import connect_db from './config/db.js' ;
 import oAuthRoutes from "./Routes/oAuth.Routes.js"
 
 const app = express();
-const port = process.env.PORT;
 
 connect_db();
 
@@ -53,6 +52,4 @@ app.use((req, res, next) => {
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes)
 
-app.listen(port, () => {
-  console.log('server is running on port : ', port)
-})
+export default app;

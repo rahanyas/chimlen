@@ -1,0 +1,14 @@
+{
+  "rewirtes" : [
+    {
+      "source" : "/api/(.*)",
+      "destination" : "/api/app.js"
+    }
+  ],
+  "routes" : [
+    {
+      "src" : "/api/.*",
+      "dist" : "/api/app.js"
+    }
+  ]
+}
