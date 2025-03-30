@@ -17,9 +17,10 @@ router.get('/google/callback', passport.authenticate('google', {
       console.log('Error : ', q.error);   
     }
     const token = generateToken(req.user, res);
-    const redirectUrl = process.env.NODE_ENV === "development" ? "http://localhost:9000/auth/google/callback" : "https://chimlen-main.vercel.app/auth/google/callback"
+    // put frontend url here
+    const redirectUrl = process.env.NODE_ENV === "development" ? "http://localhost:5173/"  : "https://chimlen-main.vercel.app/"
     console.log('redirect url:',redirectUrl);
-    res.redirect(redirectUrl+token)
+    res.redirect(`${redirectUrl}?token=${token}`)
   }
 );
 
