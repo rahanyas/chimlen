@@ -24,4 +24,7 @@ router.get('/google/callback', passport.authenticate('google', {
   }
 );
 
+router.get('/test', (req, res) => {
+  res.redirect('https://chimlen-main.vercel.app/')
+})
 export default router;

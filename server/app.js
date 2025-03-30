@@ -39,10 +39,16 @@ passport.use(new GoogleStrategy(
     }, oAuth));
 
 
+
 app.use(cors({
   origin : ["http://localhost:5173","https://chimlen-main.vercel.app"],
   credentials : true
-}))
+}));
+
+app.use((req, res, next) => {
+  console.log('Origin : ',req.headers.origin);
+  next()
+})
 
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes)
