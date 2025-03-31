@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import axiosInstance from "../utils/axiosInstance";
 
 
- const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen-main.vercel.app";
+ const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen.onrender.com";
  console.log('base url :', baseUrl);
  
 
