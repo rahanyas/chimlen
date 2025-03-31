@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/api' : 'https://chimlen-main.vercel.app/api';
+const baseURL = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/api' : 'https://chimlen.onrender.com/api';
 
  console.log('baseurl fo axios : ',baseURL);
 

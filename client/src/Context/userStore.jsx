@@ -104,7 +104,7 @@ export const UserProvider = ({children}) => {
   );
 
   const googleLogin = () => {
-    window.location.href = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/auth/google' : "https://chimlen-main.vercel.app/auth/google"
+    window.location.href = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/auth/google' : "https://chimlen.onrender.com/auth/google"
   };
 
   return (
