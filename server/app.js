@@ -20,6 +20,7 @@ import connect_db from './config/db.js' ;
 import oAuthRoutes from "./Routes/oAuth.Routes.js"
 
 const app = express();
+const port = process.env.PORT;
 
 connect_db();
 
@@ -40,7 +41,7 @@ passport.use(new GoogleStrategy(
 
 
 app.use(cors({
-  origin : ["http://localhost:5173","https://chimlen-main.vercel.app"],
+  origin : ["http://localhost:5173", "https://chimlen.vercel.app"],
   credentials : true
 }));
 
@@ -52,4 +53,6 @@ app.use((req, res, next) => {
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes)
 
-export default app;
+app.listen(port, () => {
+  console.log('server is running on port : ', port)
+})
