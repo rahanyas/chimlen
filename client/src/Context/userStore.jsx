@@ -26,7 +26,7 @@ export const UserProvider = ({children}) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axiosInstance.get('/checkAuth');
+        const res = await axiosInstance.get('/checkAuth',{withCredentials : true});
         console.log(res);
         setIsUser({status : res?.data?.status})
       } catch (err) {
