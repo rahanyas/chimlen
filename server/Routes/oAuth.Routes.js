@@ -13,13 +13,14 @@ router.get('/google/callback', passport.authenticate('google', {
   session : false
 }), 
   (req, res) => {
-    let q = url.parse(req.url, true).query;
-    if(q.error) {
-      console.log('Error : ', q.error);   
-    }
-    generateToken(req.user, res);
-    const token = req.cookies.token
-    console.log("token : ", token);
+     console.log('req user : ',req.user);
+     if(!req.user){
+      console.log('authentication failed : req.user is udnefined');
+       return res.status(401).json({status : false, msg : 'authentication failed'})
+     }
+     
+    generateToken(req?.user?._id, res);
+    console.log("generated token : ", req.cookies.token);
     
     // put frontend url here
     const redirectUrl = process.env.NODE_ENV === "development" ? "http://localhost:5173/"  : "https://chimlen.vercel.app/"
