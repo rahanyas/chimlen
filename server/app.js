@@ -41,7 +41,7 @@ passport.use(new GoogleStrategy(
 
 
 app.use(cors({
-  origin : ["http://localhost:5173", "https://chimlen.vercel.app", "https://chimlen.onrender.com/api"],
+  origin : ["http://localhost:5173", "https://chimlen.vercel.app", "https://chimlen.onrender.com"],
   credentials : true
 }));
 
