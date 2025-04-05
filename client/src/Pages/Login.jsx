@@ -2,10 +2,15 @@
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import useUser from '../Context/userStore';
+import { useEffect } from 'react';
 
 export default function Login() {
 
-  const {handleLogin, googleLogin, handleOnChange, errMsg} = useUser();
+  const {handleLogin, googleLogin, handleOnChange, errMsg, setErrMsg} = useUser();
+
+  useEffect(() => {
+    setErrMsg('')
+  },[setErrMsg])
 
   let navigate = useNavigate();
 

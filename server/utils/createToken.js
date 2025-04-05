@@ -14,7 +14,7 @@ const generateToken =  (userId, res) => {
        sameSite : "None",
        maxAge : 2 * 24 * 60 * 60 * 1000
     });
-     console.log('token set in cookies : ', token)
+    //  console.log('token set in cookies : ', token)
     return token;
   } catch (err) {
     console.log('error in generateToken : ',err);

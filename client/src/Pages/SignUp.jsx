@@ -2,7 +2,7 @@
 import { motion } from "framer-motion"; 
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import useUser from "../Context/userStore";
 
 const pageVariants = {
@@ -17,19 +17,19 @@ const errorVariants = {
 };
 
 const SignUp = () => {
-  const { errMsg, handleSignup, setUser , googleLogin, handleOnChange} = useUser();
+  const { errMsg, handleSignup, setUser , googleLogin, handleOnChange, setErrMsg} = useUser();
 
   const [confirmPass, setConfirmPass] = useState('');
   let Navigate = useNavigate();
 
-
+  useEffect(() => {
+    setErrMsg('')
+  },[setErrMsg])
 
   const handleSubmit =  (e) => {
     e.preventDefault();
     handleSignup(confirmPass, Navigate);
   };
-
-
 
   return (
     <motion.div
