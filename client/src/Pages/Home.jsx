@@ -46,6 +46,12 @@ const Home = () => {
           <h1>vedio calls</h1>
         </div>
        </div>
+       <div className="border flex justify-between">
+        <input type="text" name="" id  className="border"/>
+        <div>
+          add
+        </div>
+       </div>
      </section>
   </main>
   )
