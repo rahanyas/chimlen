@@ -61,12 +61,15 @@ export default function Login() {
           >
             Login
           </motion.button>
-        </form>
+          <div className='flex justify-between mt-5'>
+          <p className='hover:text-blue-500 cursor-pointer'><Link to='/forgotPass'>forgot password?</Link></p>   
         
         <p className="text-center text-gray-500">
           Don't have an account? <Link to="/signup" className="text-blue-500 hover:underline">Sign up</Link>
         </p>
+          </div>
         
+        </form>
         <div className="flex flex-col space-y-3">
           <motion.button 
             whileTap={{ scale: 0.95 }}

@@ -11,7 +11,7 @@ import { ProtectedRoute } from "./components/ProtectedRoutes";
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
 const Home = lazy(() => import('./Pages/Home'))
-
+const ForgotPass = lazy(() => import('./Pages/ForgotPass'))
 
 // why i used key in routes?
 // without setting key ,the animatePresence might not detect the transition properly, leading to broken animations
@@ -40,6 +40,7 @@ const AppRoutes = () => {
             </Route>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgotPass" element={<ForgotPass/>}/>
             <Route  path="/home" element={
               <ProtectedRoute>
                 <Home />
