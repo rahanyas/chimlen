@@ -18,7 +18,7 @@ import { oAuth } from './controllers/userController.js';
 import userRoutes from './Routes/UserRoutes.js'
 import connect_db from './config/db.js' ;
 import oAuthRoutes from "./Routes/oAuth.Routes.js"
-
+import otpRoutes from './Routes/otp.Routes.js'
 const app = express();
 const port = process.env.PORT;
 
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes)
-
+app.use('/api/otp', otpRoutes)
 app.listen(port, () => {
   console.log('server is running on port : ', port)
 })
