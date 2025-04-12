@@ -10,6 +10,8 @@ const ForgotPass = () => {
     e.preventDefault();
     try {
       const res = await axiosInstance.post('/otp/getotp', {email});
+      console.log(res);
+      
       if(res.status === 200){
         navigate('/otp')
       }
