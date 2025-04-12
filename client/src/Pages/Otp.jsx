@@ -9,19 +9,31 @@ const Otp = () => {
   }, []);
 
   const handleChange = (value, index) => {
+
     if (isNaN(value)) return;
     const newValue = value.trim();
     const newArr = [...inputArr];
+
+    if(newValue === ""){
+      newArr[index] = "";
+      setInputArr(newArr);
+
+      setTimeout(() => {
+        if(index > 0){
+          refArr.current[index - 1]?.focus()
+        }
+      }, 0);
+    }
     newArr[index] = newValue.slice(-1);
     setInputArr(newArr);
     newValue && refArr.current[index + 1]?.focus();
   };
 
-  const handleRemove = (e, index) => {
-    if (!e.target.value && e.code === "Backspace") {
-      refArr.current[index - 1]?.focus();
-    }
-  };
+  // const handleRemove = (e, index) => {
+  //   if (!e.target.value && e.code === "Backspace") {
+  //     refArr.current[index - 1]?.focus();
+  //   }
+  // };
 
   const handleSubmit = () => {
     const otp = inputArr.join('');
@@ -45,7 +57,7 @@ const Otp = () => {
               className="w-10 sm:w-12 h-12 sm:h-14 text-center text-lg font-bold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               ref={(input) => (refArr.current[index] = input)}
               onChange={(e) => handleChange(e.target.value, index)}
-              onKeyDown={(e) => handleRemove(e, index)}
+              // onKeyDown={(e) => handleRemove(e, index)}
             />
           ))}
         </div>
