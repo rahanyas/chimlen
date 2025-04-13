@@ -9,7 +9,7 @@ const otpSchema = new mongoose.Schema({
     type : String,
     required : true
   }
-});
+},{timestamps : true});
 
 const otpModal = mongoose.model('otps', otpSchema);
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
 
 const Otp = () => {
   const [inputArr, setInputArr] = useState(new Array(5).fill(""));
@@ -29,16 +30,17 @@ const Otp = () => {
     newValue && refArr.current[index + 1]?.focus();
   };
 
-  // const handleRemove = (e, index) => {
-  //   if (!e.target.value && e.code === "Backspace") {
-  //     refArr.current[index - 1]?.focus();
-  //   }
-  // };
 
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     const otp = inputArr.join('');
-    console.log("Submitted OTP:", otp);
-    // Send otp to backend here
+    const email = localStorage.getItem('UserEmail')
+    try {
+       const res = await axiosInstance.post('/otp/verifyOtp', {otp, email});
+       console.log(res)
+    } catch (err) {
+       console.log('Error in OTP handleSubmit : ',err)
+    }
   };
 
   return (

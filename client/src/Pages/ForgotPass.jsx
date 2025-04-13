@@ -11,11 +11,11 @@ const ForgotPass = () => {
     try {
       const res = await axiosInstance.post('/otp/getotp', {email});
       console.log(res);
-      
+      const {userEmail} = res.data;
+      localStorage.setItem('UserEmail', userEmail)
       if(res.status === 200){
         navigate('/otp')
       }
-      navigate('/otp')
     } catch (err) {
       console.log(err)
     }
