@@ -40,13 +40,13 @@ function generateOtp(){
     console.log(email, otp);
       try {
         if(!email || !otp){
-          return res.status(400).json({msg : 'Email and OTP are required'})
+          return res.status(400).json({msg : 'Invalid Otp'})
         };
 
         const otpRecord  = await otpModal.findOne({email , otp});
 
         if(!otpRecord){
-          return res.status(400).json({msg : 'Invalid OTP or Email'})
+          return res.status(400).json({msg : 'Invalid OTP '})
         };
 
         const otpExpiryMinutes = 10;
