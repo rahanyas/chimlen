@@ -1,8 +1,21 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import axiosInstance from "../utils/axiosInstance";
+
 
 const Home = () => {
+
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const res = await axiosInstance.get('/getUsers');
+      console.log(res)
+      setUsers(res?.data?.data)
+    }
+    fetchUsers()
+  }, [])
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-100">
       {/* Sidebar */}
@@ -18,13 +31,13 @@ const Home = () => {
           className="w-full p-2 mb-4 border rounded text-sm"
         />
         <div className="space-y-4 overflow-y-auto max-h-[calc(100vh-130px)]">
-          {[...Array(10)].map((_, index) => (
+          {users.map((item, index) => (
             <div
               key={index}
               className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-full bg-gray-300" />
-              <span className="text-sm font-medium">User {index + 1}</span>
+            >{item.profilePic ?  <img src={item.profilePic} className="w-10 h-10 rounded-full " /> :  <div className="w-10 h-10 rounded-full bg-gray-100" />}
+             
+              <span className="text-sm font-medium"> {item.userName}</span>
             </div>
           ))}
         </div>

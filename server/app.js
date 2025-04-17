@@ -51,8 +51,9 @@ app.use(cors({
 // })
 
 app.use('/api', userRoutes);
-app.use('/auth', oAuthRoutes)
-app.use('/api/otp', otpRoutes)
+app.use('/auth', oAuthRoutes);
+app.use('/api/otp', otpRoutes);
+
 app.listen(port, () => {
   console.log('server is running on port : ', port)
 })

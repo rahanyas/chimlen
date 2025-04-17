@@ -113,6 +113,18 @@ export const oAuth = async (aToken, rToken, profile, done) => {
   } catch (err) {
     return done(err, null)
   }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password -provider -mobile');
+    console.log(users);
+    
+    return res.status(200).json({data : users})
+  } catch (err) {
+    console.log('Error in getUsers : ', err.message);
+    return res.status(500).json({msg : 'Internal Server Error'});
+  }
 }
 
 export const handleLogout = async (req, res) => {
