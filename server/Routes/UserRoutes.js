@@ -1,5 +1,5 @@
 import express from 'express';
-
+import verifytoken from '../middleWare/authMiddleWare.js';
 import {
   checkUser,
   getUsers,
@@ -15,7 +15,7 @@ router.get('/checkAuth', checkUser);
 router.post('/logout', handleLogout);
 router.post('/login', handleLogin);
 
-router.get('/getUsers', getUsers)
+router.get('/getUsers', verifytoken, getUsers)
 
 export default router
 

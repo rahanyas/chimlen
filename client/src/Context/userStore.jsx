@@ -11,7 +11,7 @@ import axiosInstance from "../utils/axiosInstance";
 const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
-  const [isUser, setIsUser] = useState({status : false});
+  const [isUser, setIsUser] = useState({status : false, loading : true});
 
   const [user, setUser] = useState({
     userName : '',
@@ -28,7 +28,7 @@ export const UserProvider = ({children}) => {
       try {
         const res = await axiosInstance.get('/checkAuth',{withCredentials : true});
         // console.log(res);
-        setIsUser({status : res?.data?.status})
+        setIsUser({status : res?.data?.status, loading : false})
       } catch (err) {
         console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {

@@ -11,12 +11,14 @@ const Home = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await axiosInstance.get('/getUsers');
-      console.log(res)
+      console.log('fetchUsers Resp : ',res)
       setUsers(res?.data?.data)
+
     }
     fetchUsers()
   }, [])
   return (
+
     <div className="flex flex-col md:flex-row h-screen bg-gray-100">
       {/* Sidebar */}
       <motion.div

@@ -81,7 +81,7 @@ export const checkUser = async (req, res) => {
      return res.json({status : false, msg : 'no token provided'})
     };
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
 
     const user = await User.findOne({_id : decoded.id})
     // console.log('user : ', user);
@@ -118,7 +118,7 @@ export const oAuth = async (aToken, rToken, profile, done) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({}).select('-password -provider -mobile');
-    console.log(users);
+    // console.log(users);
     
     return res.status(200).json({data : users})
   } catch (err) {
