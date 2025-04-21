@@ -3,29 +3,26 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
 
-
 const Home = () => {
-
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await axiosInstance.get('/getUsers');
-      console.log('fetchUsers Resp : ',res)
-      setUsers(res?.data?.data)
+      console.log('fetchUsers Resp : ', res);
+      setUsers(res?.data?.data);
+    };
+    fetchUsers();
+  }, []);
 
-    }
-    fetchUsers()
-  }, [])
   return (
-
     <div className="flex flex-col md:flex-row h-screen bg-gray-100">
       {/* Sidebar */}
       <motion.div
         initial={{ x: -50, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full md:w-[250px] bg-white border-r border-gray-300 p-4"
+        className="w-full md:w-[250px] bg-white border-r border-gray-300 p-4 md:p-6"
       >
         <input
           type="text"
@@ -37,9 +34,13 @@ const Home = () => {
             <div
               key={index}
               className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer"
-            >{item.profilePic ?  <img src={item.profilePic} className="w-10 h-10 rounded-full " /> :  <div className="w-10 h-10 rounded-full bg-gray-100" />}
-             
-              <span className="text-sm font-medium"> {item.userName}</span>
+            >
+              {item.profilePic ? (
+                <img src={item.profilePic} className="w-10 h-10 rounded-full" />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-gray-100" />
+              )}
+              <span className="text-sm font-medium">{item.userName}</span>
             </div>
           ))}
         </div>
