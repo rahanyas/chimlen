@@ -27,7 +27,7 @@ export const UserProvider = ({children}) => {
     const checkAuth = async () => {
       try {
         const res = await axiosInstance.get('/checkAuth',{withCredentials : true});
-        // console.log(res);
+        console.log(res);
         setIsUser({status : res?.data?.status, loading : false})
       } catch (err) {
         console.log('Error from checkAuth:', err)
