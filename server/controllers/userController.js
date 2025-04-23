@@ -51,24 +51,24 @@ export const handleLogin = async (req, res) => {
      
     const user = await User.findOne({email : email});
     if(!user){
-     return res.status(400).json({msg : 'User not found'})
+     return res.status(400).json({msg : 'User not found', status : false, loading : true})
     };
 
     if(user.provider.includes('google')){
-      return res.status(400).json({msg : "This email is linked to google.please log in with google account"})
+      return res.status(400).json({msg : "This email is linked to google.please log in with google account", status : false, loading : true})
     }
  
     const isMatch =  bcrypt.compareSync(password, user.password);
  
     if(!isMatch){
-     return res.status(400).json({msg : "invalid credentials"})
+     return res.status(400).json({msg : "invalid credentials", status : false, loading : true})
     }
 
     generateToken(user._id, res);
-    return res.status(200).json({msg : 'Login successfull'})
+    return res.status(200).json({msg : 'Login successfull', status : true, loading : false})
   } catch (err) {
     console.log(err);
-    return res.status(500).json({msg : 'internal server error'})
+    return res.status(500).json({msg : 'internal server error', status : false, loading : true})
   }
 
 }
@@ -86,13 +86,13 @@ export const checkUser = async (req, res) => {
     const user = await User.findOne({_id : decoded.id})
     // console.log('user : ', user);
     if(!user){
-      return res.status(400).json({status : false, msg : 'user not found'})
+      return res.status(400).json({status : false, msg : 'user not found', loading : false})
     };
  
-    return res.status(200).json({status : true})
+    return res.status(200).json({status : true, loading : false})
   } catch (err) {
     console.log(err.message);
-    return res.status(500).json({status : false , msg : 'internal server error'})
+    return res.status(500).json({status : false , msg : 'internal server error', loading : true})
   }
 };
 

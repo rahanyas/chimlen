@@ -11,7 +11,7 @@ import axiosInstance from "../utils/axiosInstance";
 const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
-  const [isUser, setIsUser] = useState({status : false, loading : true});
+  const [isUser, setIsUser] = useState({});
 
   const [user, setUser] = useState({
     userName : '',
@@ -27,14 +27,16 @@ export const UserProvider = ({children}) => {
     const checkAuth = async () => {
       try {
         const res = await axiosInstance.get('/checkAuth',{withCredentials : true});
-        console.log(res);
-        setIsUser({status : res?.data?.status, loading : false})
+
+        console.log('checkAuth Res : ', res);
+        setIsUser({status : res?.data?.status, loading : res?.data?.loading})
+
       } catch (err) {
         console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {
           console.log("User is not authenticated");
         }  
-        setIsUser({ status: false });
+        setIsUser({ status: false, loading : true });
       }
     }
     checkAuth()
@@ -59,7 +61,7 @@ export const UserProvider = ({children}) => {
       try {
         const res = await axiosInstance.post('/signup', user);
         console.log(res);
-        setIsUser({status : true});
+        setIsUser({status : true  , loading : false});
         navigate('/') 
       } catch (err) {
         console.log(err)
@@ -93,7 +95,7 @@ export const UserProvider = ({children}) => {
         }
           const res = await axiosInstance.post('/login',{email, password} );
           console.log(res);
-          setIsUser({status : true});
+          setIsUser({status : true, loading : false});
           navigate('/')
       } catch (err) {
         console.log(err);

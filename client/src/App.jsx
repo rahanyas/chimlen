@@ -46,7 +46,7 @@ const AppRoutes = () => {
             <Route  path="/home" element={
               <ProtectedRoute>
                 <Home />
-              </ProtectedRoute>
+               </ProtectedRoute>
               }/>
           </Routes>
         </motion.div>
