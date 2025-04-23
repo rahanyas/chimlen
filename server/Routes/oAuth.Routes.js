@@ -21,7 +21,7 @@ router.get('/google/callback', passport.authenticate('google', {
     console.log("generated token : ", req.cookies.token);
     
     // put frontend url here
-    const redirectUrl = process.env.NODE_ENV === "development" ? "http://localhost:5173/"  : "https://chimlen.vercel.app/"
+    const redirectUrl = process.env.NODE_ENV === "development" ? "http://localhost:5173/home"  : "https://chimlen.vercel.app/home"
     console.log('redirect url:',redirectUrl);
     return res.redirect(redirectUrl)
     
