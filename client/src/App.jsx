@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ /* eslint-disable no-unused-vars */
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Layout/Structure";
 import LandingPage from "./Pages/LandingPage";
