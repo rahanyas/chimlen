@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import useUser from "../Context/userStore";
 
@@ -12,10 +12,10 @@ const btnVariants = {
 
 const menuVariants = {
   hidden: {
-     y: "-100%", 
-     opacity: 0, 
-     transition: { duration: 0.3 , ease : "easeInOut" } 
-    },
+    y: "-100%",
+    opacity: 0,
+    transition: { duration: 0.3, ease: "easeInOut" },
+  },
   visible: {
     y: "0%",
     opacity: 1,
@@ -31,6 +31,8 @@ const menuVariants = {
 const Navbar = () => {
   const { isUser, handleLogout } = useUser();
   const [isMobile, setIsMobile] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
 
   if (isUser === null) return <p className="text-white text-center">Loading...</p>;
 
@@ -41,17 +43,32 @@ const Navbar = () => {
       className="bg-gradient-to-r from-black via-gray-900 to-black/80 backdrop-blur-md w-full text-white flex items-center justify-between px-6 p-5 fixed top-0 left-0 right-0 z-10"
     >
       <h1 className="capitalize text-[20px]">chimlen</h1>
+
+      {/* Desktop View */}
       <div className="hidden md:flex gap-6">
         {isUser.status ? (
-          <motion.button
-            variants={btnVariants}
-            whileHover="hover"
-            whileTap="tap"
-            className="rounded-full px-4 py-2 cursor-pointer"
-            onClick={handleLogout}
-          >
-            Logout
-          </motion.button>
+          <div className="flex gap-3 items-center relative">
+            <motion.button
+              variants={btnVariants}
+              whileHover="hover"
+              whileTap="tap"
+              className="rounded-full px-4 py-2 cursor-pointer"
+              onClick={() => setShowDropdown(prev => !prev)}
+            >
+              <Settings />
+            </motion.button>
+
+            {showDropdown && (
+              <div className="absolute right-0 top-full mt-2 bg-gray-800 rounded shadow-lg z-20">
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-white hover:bg-gray-700"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <>
             <Link to="/login">
@@ -78,12 +95,14 @@ const Navbar = () => {
         )}
       </div>
 
+      {/* Mobile Hamburger Button */}
       <div className="md:hidden">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile((prev) => !prev)}>
           {isMobile ? <X size={28} className="cursor-pointer" /> : <Menu size={28} className="cursor-pointer" />}
         </motion.button>
       </div>
 
+      {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {isMobile && (
           <motion.div
@@ -94,18 +113,30 @@ const Navbar = () => {
             className="absolute top-full left-0 w-full bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden"
           >
             {isUser.status ? (
-              <motion.button
-                whileHover="hover"
-                whileTap="tap"
-                variants={btnVariants}
-                exit="exit"
-                className="rounded-full px-4 py-2 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Logout
-              </motion.button>
+              <div className="flex flex-col gap-3 items-center relative">
+                <motion.button
+                  variants={btnVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="rounded-full px-4 py-2 cursor-pointer"
+                  onClick={() => setShowMobileDropdown(prev => !prev)}
+                >
+                  <Settings />
+                </motion.button>
+
+                {showMobileDropdown && (
+                  <div className="bg-gray-800 rounded shadow-lg w-full text-center">
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-white hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
-              <div>
+              <div className="flex flex-col gap-4">
                 <Link to="/login">
                   <motion.button
                     whileHover="hover"
