@@ -9,7 +9,7 @@ const ForgotPass = () => {
   const getOtp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosInstance.post('/otp/getotp', {email});
+      const res = await axiosInstance.post('/otp/getotp', {email}, {withCredentials : true});
       console.log(res);
       const {userEmail} = res.data;
       localStorage.setItem('UserEmail', userEmail)
