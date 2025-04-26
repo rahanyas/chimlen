@@ -5,8 +5,10 @@ import {
   getUsers,
   handleLogin,
   handleLogout,
-  handleSignup 
+  handleSignup,
   } from '../controllers/userController.js';
+import newPass from '../controllers/newPass.controller.js'
+  
 
 const router = express.Router();
 
@@ -14,6 +16,7 @@ router.post('/signup', handleSignup);
 router.get('/checkAuth', checkUser);
 router.post('/logout', handleLogout);
 router.post('/login', handleLogin);
+router.post('/setnewpass', newPass.resetPassword)
 
 router.get('/getUsers', verifytoken, getUsers)
 

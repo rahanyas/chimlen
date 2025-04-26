@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const Otp = () => {
   const [inputArr, setInputArr] = useState(new Array(5).fill(""));
   const [errorMsg, setErrorMsg] = useState('');
   const refArr = useRef([]);
-
+  let navigate = useNavigate()
   useEffect(() => {
     refArr.current[0]?.focus();
   }, []);
@@ -45,7 +46,11 @@ const Otp = () => {
       localStorage.removeItem('UserEmail');
 
       // Optional: Redirect or success message here
-
+      if(res.status === 200){
+        navigate('/newPassword')
+      }else{
+        setErrorMsg(res?.data?.msg)
+      }
     } catch (err) {
       console.error('Error in OTP handleSubmit:', err);
 

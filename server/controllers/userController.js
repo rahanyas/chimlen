@@ -78,7 +78,7 @@ export const checkUser = async (req, res) => {
     const token = req.cookies.token;
     
     if(!token){
-     return res.json({status : false, msg : 'no token provided'})
+     return res.json({status : false, msg : 'no token provided', loading : false})
     };
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // console.log(decoded);
@@ -115,6 +115,8 @@ export const oAuth = async (aToken, rToken, profile, done) => {
   }
 };
 
+
+
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({}).select('-password -provider -mobile');
@@ -136,3 +138,4 @@ export const handleLogout = async (req, res) => {
     return res.status(500).json({msg : 'internal server error'})
   }
 }
+

@@ -1,24 +1,31 @@
 import otpModal from "../modal/otpModal.modal.js";
-import Randomstring from "randomstring";
 import sendEmail from "../utils/sendMail.utils.js";
 
-function generateOtp(){
-  return Randomstring.generate({
-    length : 5,
-    charset : 'numeric'
-  });
-};
+
+function generateOtp(limit){
+   const otp = [];
+   for(let i = 0; i < limit; i++){
+       const randomNum = Math.floor(Math.random() * 10);
+       otp.push(randomNum)
+   };
+  //  console.log(otp.join('')); 
+   return otp.join('') 
+}
 
  class OtpHandler {
+  
+  constructor(){
+    this.savedEmail = null;
+  }
 
-  async  sendOtp (req, res){
+    sendOtp = async (req, res) => {
     const {email} = req.body;
        try {
 
         if(!email){
           return res.status(400).json({msg : 'Please provide an Email'})
         }
-          const otp = generateOtp();
+          const otp = generateOtp(5);
           const newOTP = new otpModal({email, otp});
           await newOTP.save();
 
@@ -27,7 +34,7 @@ function generateOtp(){
             subject : 'Your OTP',
             message : `<p>Your otp is : <strong>${otp}</strong></p>`
           });
-
+        this.savedEmail = email
           return res.status(200).json({msg : 'otp send successfully', userEmail : email })
        } catch (err) {
          console.log('Error in sendOTP (otpHandler) :',err);
@@ -35,7 +42,7 @@ function generateOtp(){
        }
   };
 
-  async verifyOTP(req, res){
+   verifyOTP = async (req, res) => {
     const {email, otp} = req.body;
     console.log(email, otp);
       try {
@@ -70,5 +77,8 @@ function generateOtp(){
   }
 }
 
-export default new OtpHandler
+
+
+const otpHandlerInstance = new OtpHandler()
+export default  otpHandlerInstance
 
