@@ -1,61 +1,102 @@
 import { useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const NewPassPage = () => {
-  const [password, setPassWord] = useState('');
-  const [confirmPass, setConfrimPass] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [msg, setMsg] = useState({ errorMsg: '', successMsg: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // ✅ Prevent page refresh
+    e.preventDefault();
 
     if (password !== confirmPass) {
-      return setErrorMsg('Passwords do not match');
+      return setMsg({ errorMsg: 'Passwords do not match', successMsg: '' });
     }
 
+    setLoading(true);
     try {
-      const res = await axiosInstance.post('/setnewpass', { password });
-      console.log(res);
-      setErrorMsg('Password changed successfully!'); // ✅ success feedback (optional)
+      await axiosInstance.post("/setnewpass", { password });
+      setMsg({ successMsg: 'Password changed successfully!', errorMsg: '' });
+
+  
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.log(err);
-      setErrorMsg('An error occurred while changing password');
+      setMsg({ errorMsg: 'An error occurred while changing password', successMsg: '' });
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Change Password</h2>
+  const checkStrength = () => {
+    if (password.length < 6) return "Weak";
+    if (password.match(/[0-9]/) && password.match(/[A-Z]/) && password.length >= 8) return "Strong";
+    return "Medium";
+  };
 
-        {/* ✅ Show Error Message */}
-        {errorMsg.length > 0 && (
-          <div className="mb-4 text-center text-red-500 font-semibold">
-            {errorMsg}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-100 via-white to-purple-100 p-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-2xl border border-gray-200">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Reset Your Password</h2>
+
+        {msg.errorMsg && (
+          <div className="mb-4 text-center text-red-600 font-medium">
+            {msg.errorMsg}
+          </div>
+        )}
+        {msg.successMsg && (
+          <div className="mb-4 text-center text-green-600 font-medium">
+            {msg.successMsg}
           </div>
         )}
 
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <div>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter new password"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
+            {password && (
+              <p className={`text-sm mt-1 ${checkStrength() === "Weak" ? "text-red-500" : checkStrength() === "Medium" ? "text-yellow-500" : "text-green-600"}`}>
+                Strength: {checkStrength()}
+              </p>
+            )}
+          </div>
+
           <input
-            type="password"
-            placeholder="Enter new password"
-            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={(e) => setPassWord(e.target.value)}
-            value={password}
-          />
-          <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Confirm password"
-            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={(e) => setConfrimPass(e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setConfirmPass(e.target.value)}
             value={confirmPass}
+            required
           />
+
+          <div className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              id="showPassword"
+              onChange={() => setShowPassword(!showPassword)}
+              className="accent-blue-500"
+            />
+            <label htmlFor="showPassword" className="text-gray-700">Show Password</label>
+          </div>
 
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
+            className={`bg-blue-600 text-white py-2 rounded-md transition hover:bg-blue-700 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
+            disabled={loading}
           >
-            Update Password
+            {loading ? "Updating..." : "Update Password"}
           </button>
         </form>
       </div>
