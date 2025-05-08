@@ -31,8 +31,7 @@ const menuVariants = {
 const Navbar = () => {
   const { isUser, handleLogout } = useUser();
   const [isMobile, setIsMobile] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showMobileDropdown, setShowMobileDropdown] = useState(false);
+
 
   if (isUser === null) return <p className="text-white text-center">Loading...</p>;
 
@@ -53,21 +52,12 @@ const Navbar = () => {
               whileHover="hover"
               whileTap="tap"
               className="rounded-full px-4 py-2 cursor-pointer"
-              onClick={() => setShowDropdown(prev => !prev)}
             >
+              <Link to='/settings'>
               <Settings />
+              </Link>
             </motion.button>
 
-            {showDropdown && (
-              <div className="absolute right-0 top-full mt-2 bg-gray-800 rounded shadow-lg z-20">
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-white hover:bg-gray-700"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
           </div>
         ) : (
           <>
@@ -119,21 +109,12 @@ const Navbar = () => {
                   whileHover="hover"
                   whileTap="tap"
                   className="rounded-full px-4 py-2 cursor-pointer"
-                  onClick={() => setShowMobileDropdown(prev => !prev)}
                 >
+                  <Link to='/settings'>
                   <Settings />
+                  </Link>
+                 
                 </motion.button>
-
-                {showMobileDropdown && (
-                  <div className="bg-gray-800 rounded shadow-lg w-full text-center">
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full px-4 py-2 text-white hover:bg-gray-700"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
               </div>
             ) : (
               <div className="flex flex-col gap-4">

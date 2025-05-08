@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import LoadingScreen from "./components/Loading";
 import  { UserProvider } from "./Context/userStore";
 import { ProtectedRoute } from "./components/ProtectedRoutes";;
-
+import { ThemeProvider } from "./Context/themeStore";
 
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -63,9 +63,11 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <UserProvider>
+      <ThemeProvider>
       <Router> 
         <AppRoutes />
       </Router>
+      </ThemeProvider>
     </UserProvider>
   );
 };
