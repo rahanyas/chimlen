@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import useTheme from '../Context/themeStore';
 import Navbar from '../components/Navbar';
+import useUser from '../Context/userStore';
 
 const Settings = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const { theme, toggleTheme } = useTheme();
-
+  const {handleLogout} = useUser()
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}absolute`}>
       <Navbar />
       
       {/* Flex container for vertical centering */}
-      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] px-4 py-8">
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] px-4 py-8 relative top-13">
         <div className={`w-full max-w-3xl ${theme === 'dark' ? 'bg-gray-500' : 'bg-white'} p-8 rounded-xl shadow-lg border `}>
           
           {/* Header */}
@@ -61,7 +62,7 @@ const Settings = () => {
           <section>
             <button
               className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition cursor-pointer"
-              onClick={() => alert('Logging out...')}
+              onClick={() => handleLogout()}
             >
               Logout
             </button>

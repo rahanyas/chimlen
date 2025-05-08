@@ -8,7 +8,7 @@ import LoadingScreen from "./components/Loading";
 import  { UserProvider } from "./Context/userStore";
 import { ProtectedRoute } from "./components/ProtectedRoutes";;
 import { ThemeProvider } from "./Context/themeStore";
-
+import useTheme from "./Context/themeStore";
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
 const Home = lazy(() => import('./Pages/Home'))
@@ -26,7 +26,7 @@ const SettingsPage = lazy(() => import('./Pages/Settings'))
 
 const AppRoutes = () => {
   const location = useLocation();
-
+ const {theme} = useTheme()
   return (
     <AnimatePresence mode="wait">
       <Suspense fallback={<LoadingScreen />}>
@@ -36,6 +36,7 @@ const AppRoutes = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
+          className={`${theme === 'light' ? 'bg-white text-black' : 'bg-black text-white'}`}
         >
           <Routes location={location}>
             <Route path="/" element={<Layout />}>
@@ -62,7 +63,7 @@ const AppRoutes = () => {
 
 const App = () => {
   return (
-    <UserProvider>
+    <UserProvider >
       <ThemeProvider>
       <Router> 
         <AppRoutes />
