@@ -77,10 +77,12 @@ export const UserProvider = ({children}) => {
     async () => {
       try {
         const res = await axiosInstance.post('/logout');
-        setIsUser({status : res?.data?.status})
+        setIsUser({status : res?.data?.status});
+        setErrMsg(res?.data?.msg)
         console.log(res)
       } catch (err) {
-        console.log(err)
+        console.log(err);
+        setErrMsg(err?.response?.msg)
       }
   },[],
   );
