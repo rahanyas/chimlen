@@ -5,7 +5,7 @@ import LoadingScreen from "./Loading";
 
 export const ProtectedRoute = ({ children }) => {
   const {isUser} = useUser();
-  console.log(isUser);
+  // console.log(isUser);
 
   if(isUser.loading)
     {

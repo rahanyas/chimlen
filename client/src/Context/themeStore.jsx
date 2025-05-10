@@ -12,25 +12,20 @@ export const ThemeProvider = ({children}) => {
        if(savedTheme){
         setTheme(savedTheme)
        }
-    }, [])
+  }, [])
 
-      useEffect(() => {
+  useEffect(() => {
         localStorage.setItem('theme', theme)
-      }, [theme])
+  }, [theme])
 
-  const darkTheme = () => {
-     setTheme('dark')
-  }
-  const lightTheme = () => {
-    setTheme('light')
-  }
+
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
  
   return (
-    <ThemeContext.Provider value={{theme, darkTheme, lightTheme, toggleTheme}}>
+    <ThemeContext.Provider value={{theme, toggleTheme}}>
        {children}
     </ThemeContext.Provider>
   )
