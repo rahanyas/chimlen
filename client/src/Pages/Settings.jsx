@@ -2,15 +2,14 @@ import { useState } from 'react';
 import useTheme from '../Context/themeStore';
 import Navbar from '../components/Navbar';
 import useUser from '../Context/userStore';
-import Login from './Login';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Settings = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   // const [loading, setLoading] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const {handleLogout, errMsg, isUser} = useUser();
-
+  let navigate = useNavigate();
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}absolute`}>
@@ -72,7 +71,7 @@ const Settings = () => {
             {isUser.status === true ?
             <button
               className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition cursor-pointer"
-              onClick={() => handleLogout()}
+              onClick={() => handleLogout(navigate)}
               // disabled={loading}
             >
               logout

@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import axiosInstance from "../utils/axiosInstance";
 
 
+
  const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen.onrender.com";
  console.log('base url :', baseUrl);
  
@@ -74,12 +75,13 @@ export const UserProvider = ({children}) => {
   
 
   const handleLogout = useCallback(
-    async () => {
+    async (navigate) => {
       try {
         const res = await axiosInstance.post('/logout');
         setIsUser({status : res?.data?.status});
         setErrMsg(res?.data?.msg)
         console.log(res)
+        navigate('/')
       } catch (err) {
         console.log(err);
         setErrMsg(err?.response?.msg)
