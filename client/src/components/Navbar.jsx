@@ -87,7 +87,7 @@ const Navbar = () => {
 
       {/* Mobile Hamburger Button */}
       <div className="md:hidden">
-        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile((prev) => !prev)}>
+        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile(prev => !prev)}>
           {isMobile ? <X size={28} className="cursor-pointer" /> : <Menu size={28} className="cursor-pointer" />}
         </motion.button>
       </div>
