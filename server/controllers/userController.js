@@ -50,15 +50,24 @@ export const handleLogin = async (req, res) => {
     };
      
     const user = await User.findOne({email : email});
+    console.log('user : ', user);
+    
     if(!user){
      return res.status(400).json({msg : 'User not found', status : false, loading : true})
     };
 
+    const isMatch =  bcrypt.compareSync(password, user.password);
+
+    if(user.provider === 'google' && user.password ){
+          if(!isMatch){
+            return res.status(400).json({msg : "invalid credentials", status : false, loading : true})
+          }
+         return res.status(200).json({msg : 'Login successfull', status : true, loading : false})
+    }
+
     if(user.provider.includes('google')){
       return res.status(400).json({msg : "This email is linked to google.please log in with google account", status : false, loading : true})
     }
- 
-    const isMatch =  bcrypt.compareSync(password, user.password);
  
     if(!isMatch){
      return res.status(400).json({msg : "invalid credentials", status : false, loading : true})
@@ -111,6 +120,7 @@ export const oAuth = async (aToken, rToken, profile, done) => {
     };
     return done(null, user)
   } catch (err) {
+    console.log('error in oAuth : ', err.message);
     return done(err, null)
   }
 };

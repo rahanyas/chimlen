@@ -34,9 +34,9 @@ connect_db();
 app.use(passport.initialize());
 app.use(cookieParser());
 
-console.log('NODE_ENV : ', NODE_ENV);
-console.log('google client id : ', CLIENT_ID );
-console.log('google client secret : ', CLIENT_SECRET);
+// console.log('NODE_ENV : ', NODE_ENV);
+// console.log('google client id : ', CLIENT_ID );
+// console.log('google client secret : ', CLIENT_SECRET);
 
 
 //parses incoming json requests

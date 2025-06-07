@@ -1,6 +1,6 @@
 import otpModal from "../modal/otpModal.modal.js";
 import sendEmail from "../utils/sendMail.utils.js";
-
+import User from "../modal/userModal.js";
 
 function generateOtp(limit){
    const otp = [];
@@ -24,6 +24,10 @@ function generateOtp(limit){
 
         if(!email){
           return res.status(400).json({msg : 'Please provide an Email'})
+        }
+        const isUser = await User.findOne({email});
+        if(!isUser){
+          return res.status(400).json({msg :  "invalid email"})
         }
           const otp = generateOtp(5);
           const newOTP = new otpModal({email, otp});
