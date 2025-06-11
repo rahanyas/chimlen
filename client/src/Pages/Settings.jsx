@@ -68,7 +68,7 @@ const Settings = () => {
 
           {/* Logout Button */}
           <section>
-            {isUser.status === true ?
+            
             <button
               className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition cursor-pointer"
               onClick={() => handleLogout(navigate)}
@@ -76,15 +76,7 @@ const Settings = () => {
             >
               logout
             </button>
-            : 
-            <button
-            className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition cursor-pointer"
-          >
-            <Link to='/login'>
-               Login
-            </Link>
-          </button>
-            }
+          
           </section>
 
         </div>
