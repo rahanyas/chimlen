@@ -38,7 +38,7 @@ export const UserProvider = ({children}) => {
     }
   }, [isUser.status])
 
-      useEffect(() => {
+  useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await axiosInstance.get('/checkAuth');

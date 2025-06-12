@@ -45,7 +45,7 @@ const Navbar = () => {
 
       {/* Desktop View */}
       <div className="hidden md:flex gap-6">
-        {isUser.status ? (
+        {isUser.status === true ? (
           <div className="flex gap-3 items-center relative">
             <motion.button
               variants={btnVariants}
@@ -102,7 +102,7 @@ const Navbar = () => {
             exit="exit"
             className="absolute top-full left-0 w-full bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden"
           >
-            {isUser.status ? (
+            {isUser.status === true ? (
               <div className="flex flex-col gap-3 items-center relative">
                 <motion.button
                   variants={btnVariants}
