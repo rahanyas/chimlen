@@ -27,7 +27,7 @@ function generateOtp(limit){
         }
         const isUser = await User.findOne({email});
         if(!isUser){
-          return res.status(400).json({msg :  "invalid email"})
+          return res.status(400).json({msg :  "this email is not registerd "})
         }
           const otp = generateOtp(5);
           const newOTP = new otpModal({email, otp});
