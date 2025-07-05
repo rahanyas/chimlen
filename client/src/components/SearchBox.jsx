@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const SearchBox = () => {
+const SearchBox = ({className}) => {
     const [search, setSearch] = useState('')
   return (
     <div>
@@ -8,7 +8,7 @@ const SearchBox = () => {
         type="text"
         value={search}
         onChange={(e) => setSearch(e.target.value)} 
-        className="border p-3 rounded-full outline-none md:w-[350px]"
+        className={`${className}`}
         placeholder="SEARCH USER"
          />
     </div>

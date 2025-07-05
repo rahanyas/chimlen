@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 
  const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen.onrender.com";
  console.log('base url :', baseUrl);
@@ -21,22 +21,22 @@ export const UserProvider = ({children}) => {
   });
 
   const [errMsg, setErrMsg] = useState('');
-  const socket = useRef(null)
+  // const socket = useRef(null)
 
-  const connectSocket = () => {
-    if(isUser.status === false || socket.current?.connected) return ;
+  // const connectSocket = () => {
+  //   if(isUser.status === false || socket.current?.connected) return ;
     
-    socket.current = io(baseUrl, {
-      withCredentials : true
-    });
-    socket.current.connect() 
-  }
+  //   socket.current = io(baseUrl, {
+  //     withCredentials : true
+  //   });
+  //   socket.current.connect() 
+  // }
 
-  useEffect(() => {
-    if(isUser.status){
-      connectSocket()
-    }
-  }, [isUser.status])
+  // useEffect(() => {
+  //   if(isUser.status){
+  //     connectSocket()
+  //   }
+  // }, [isUser.status])
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -95,9 +95,9 @@ export const UserProvider = ({children}) => {
         const res = await axiosInstance.post('/logout');
         setIsUser({status : res?.data?.status});
         setErrMsg(res?.data?.msg)
-          if(socket.current?.connected){
-            socket.current.disconnect();
-          }
+          // if(socket.current?.connected){
+          //   socket.current.disconnect();
+          // }
         setTimeout(() => {
           navigate('/')
         }, 1500);
@@ -133,12 +133,23 @@ export const UserProvider = ({children}) => {
     window.location.href = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/auth/google' : "https://chimlen.onrender.com/auth/google"
   };
 
-
+  const users = [
+  "Omar",
+  "Yusuf",
+  "Ahmed",
+  "Zayd",
+  "Khalid",
+  "Hassan",
+  "Abdullah",
+  "Tariq",
+  "Ali",
+  "Ibrahim"
+];
 
 
 
   return (
-    <UserContext.Provider value={{isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg, setErrMsg, handleLogin, googleLogin, handleOnChange}}>
+    <UserContext.Provider value={{users, isUser, setIsUser, handleLogout, handleSignup, setUser, errMsg, setErrMsg, handleLogin, googleLogin, handleOnChange}}>
       {children}
     </UserContext.Provider>
   )

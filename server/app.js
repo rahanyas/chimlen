@@ -54,9 +54,6 @@ passport.use(new GoogleStrategy(
     }
 
 
-
-
-
 app.use('/api', userRoutes);
 app.use('/auth', oAuthRoutes);
 app.use('/api/otp', otpRoutes);

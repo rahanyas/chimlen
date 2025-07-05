@@ -115,7 +115,7 @@ export const oAuth = async (aToken, rToken, profile, done) => {
         email : profile.emails[0].value,
         profilePic : profile.photos[0].value,
         provider : 'google'
-      })
+      }) 
       await user.save()
     };
     return done(null, user)

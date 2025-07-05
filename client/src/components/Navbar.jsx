@@ -1,15 +1,17 @@
-/* eslint-disable no-unused-vars */
+
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
-import { Menu, X, Settings, Search, CircleUserRound } from "lucide-react";
+import { useState , lazy } from "react";
+import { Menu, X, Settings, Search, CircleUserRound, House } from "lucide-react";
 import { Link } from "react-router-dom";
 import useUser from "../Context/userStore";
-const SearchInp = React.lazy(() =>import('./SearchBox'))
+const SearchInp = lazy(() =>import('./SearchBox'))
 
 const btnVariants = {
   hover: { scale: 1.1, boxShadow: "0px 0px 10px rgb(255,255,255)" },
   tap: { scale: 0.9, backgroundColor: "#34D399" },
 };
+
+
 
 const menuVariants = {
   hidden: {
@@ -30,7 +32,7 @@ const menuVariants = {
 };
 
 const Navbar = () => {
-  const { isUser, handleLogout } = useUser();
+  const { isUser } = useUser();
   const [isMobile, setIsMobile] = useState(false);
   const [showInp, setShowInp] = useState(false)
 
@@ -49,8 +51,20 @@ const Navbar = () => {
         {isUser.status === true ? (
           <div className="flex items-center justify-between gap-4 relative ">
           
-          {showInp && <SearchInp /> }
+          {showInp && <SearchInp className='border p-3 rounded-full outline-none md:w-[350px]'/> }
             
+
+            {/* home icon */}
+           <motion.h1 
+           variants={btnVariants}
+           whileHover='hover'
+           whileTap='tap'
+           className="rounded-full px-4 py-2 cursor-pointer"
+           >
+                <Link to='/home'>
+                <House />
+                </Link>
+          </motion.h1>
 
             {/* search icon */}
            <motion.h1 
@@ -67,6 +81,7 @@ const Navbar = () => {
              variants={btnVariants}
              whileHover='hover'
              whileTap='tap'
+             title="profile"
             className="rounded-full px-4 py-2 cursor-pointer">
               <CircleUserRound />
             </motion.h1>
@@ -75,6 +90,7 @@ const Navbar = () => {
               variants={btnVariants}
               whileHover="hover"
               whileTap="tap"
+              title="settings"
               className="rounded-full px-4 py-2 cursor-pointer"
             >
               <Link to='/settings'>
@@ -129,29 +145,48 @@ const Navbar = () => {
             {isUser.status === true ? (
               <div className="flex gap-3 items-center relative">
 
-                <SearchInp />
-                
-            {/* search icon */}
+                {showInp && <SearchInp className='border p-3 rounded-full outline-none md:w-[350px]'/> }
+
+              {/* home icon */}
            <motion.h1 
            variants={btnVariants}
            whileHover='hover'
            whileTap='tap'
            className="rounded-full px-4 py-2 cursor-pointer"
            >
+                <Link to='/home'>
+                <House />
+                </Link>
+          </motion.h1>
+
+                {/* search icon */}
+            <motion.h1 
+           variants={btnVariants}
+           whileHover='hover'
+           whileTap='tap'
+           className="rounded-full px-4 py-2 cursor-pointer"
+           onClick={() => setShowInp(!showInp)}
+           >
                 <Search />
              </motion.h1>
+                
+    
             {/* profile icon */}
             <motion.h1 
              variants={btnVariants}
              whileHover='hover'
              whileTap='tap'
+             title="profile"
             className="rounded-full px-4 py-2 cursor-pointer">
               <CircleUserRound />
+
+              {/* settings icon */}
             </motion.h1>
                 <motion.button
                   variants={btnVariants}
                   whileHover="hover"
                   whileTap="tap"
+                  title="settings"
                   className="rounded-full px-4 py-2 cursor-pointer"
                 >
                  
