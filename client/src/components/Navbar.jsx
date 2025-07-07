@@ -67,7 +67,8 @@ const Navbar = () => {
           </motion.h1>
 
             {/* search icon */}
-           <motion.h1 
+           <motion.button 
+           type="button"
            variants={btnVariants}
            whileHover='hover'
            whileTap='tap'
@@ -75,7 +76,7 @@ const Navbar = () => {
            onClick={() => setShowInp(!showInp)}
            >
                 <Search />
-             </motion.h1>
+             </motion.button>
             {/* profile icon */}
             <motion.h1 
              variants={btnVariants}
@@ -90,6 +91,7 @@ const Navbar = () => {
               variants={btnVariants}
               whileHover="hover"
               whileTap="tap"
+              type="button"
               title="settings"
               className="rounded-full px-4 py-2 cursor-pointer"
             >
@@ -160,15 +162,16 @@ const Navbar = () => {
           </motion.h1>
 
                 {/* search icon */}
-            <motion.h1 
+            <motion.button 
            variants={btnVariants}
            whileHover='hover'
+           type="button"
            whileTap='tap'
            className="rounded-full px-4 py-2 cursor-pointer"
            onClick={() => setShowInp(!showInp)}
            >
                 <Search />
-             </motion.h1>
+             </motion.button>
                 
     
             {/* profile icon */}
@@ -186,6 +189,7 @@ const Navbar = () => {
                   variants={btnVariants}
                   whileHover="hover"
                   whileTap="tap"
+                  type="button"
                   title="settings"
                   className="rounded-full px-4 py-2 cursor-pointer"
                 >

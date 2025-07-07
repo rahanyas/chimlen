@@ -1,29 +1,37 @@
-
 import SearchBox from "./SearchBox";
 import useUser from "../Context/userStore";
 
-// in here show all users hwo added to friend by signed in person
 const SideBar = () => {
+  const { users } = useUser();
 
-   const {users} = useUser()
   return (
-     <div className="w-[300px] h-full border mt-[100px]">
-        
-        {/* user search Inp */}
-        <SearchBox className='border-2 outline-none p-3 ml-6 mt-4 rounded-full '/>
+    <div className="w-full sm:w-[300px] h-full border mt-[100px] p-4 overflow-y-auto [scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-2 [scrollbar-color:#999_transparent] [&::-webkit-scrollbar-thumb]:bg-gray-400 hover:[&::-webkit-scrollbar-thumb]:bg-gray-500 ">
+      {/* User search input */}
+      <SearchBox className="border-2 outline-none p-3 w-full rounded-full mb-6" />
 
-         {/* user showing div */}
-        <div className="w-full border h-fit ">
-           {users.map((user, index) => (
-            <div key={index} className="flex  justify-center gap-3  border ">
-                <div className="w-[30px] h-[30px] border rounded-full flex flex-st"/>
-                <h1 className="text-justify">{user}</h1>
+      {/* Users list */}
+      <div className="w-full space-y-4 ">
+        {users.map((user, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-center gap-x-4 p-3 border rounded-md shadow-sm"
+          >
+            {/* Profile circle */}
+            <div>
+              <span className="w-[40px] h-[40px] bg-gray-200 border rounded-full flex items-center justify-center text-sm font-semibold">
+                {user.charAt(0).toUpperCase()}
+              </span>
             </div>
-           ))}
-        </div>
 
-     </div>
-  )
+            {/* Username */}
+            <div>
+              <h1 className="text-base font-medium">{user}</h1>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default SideBar 
+export default SideBar;

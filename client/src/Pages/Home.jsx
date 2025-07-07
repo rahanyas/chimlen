@@ -1,8 +1,8 @@
 import SideBar from "../components/SideBar";
 import Navbar from '../components/Navbar';
 import Demo from "./Demo";
-import { Fragment } from "react";
 import useUser from "../Context/userStore";
+import MessageBox from "../components/MessageBox";
 
 const Home = () => {
   const {users} = useUser();
@@ -10,7 +10,10 @@ const Home = () => {
   return (
     <div className="h-screen overflow-hidden">
     <Navbar />
+    <div className="">
       <SideBar />
+      <MessageBox />
+    </div>
      {users &&   <Demo />}
     </div>
   )
