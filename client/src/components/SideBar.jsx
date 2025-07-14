@@ -5,7 +5,7 @@ const SideBar = () => {
   const { users } = useUser();
 
   return (
-    <div className="w-full sm:w-[300px] h-full border mt-[100px] p-4 overflow-y-auto [scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-2 [scrollbar-color:#999_transparent] [&::-webkit-scrollbar-thumb]:bg-gray-400 hover:[&::-webkit-scrollbar-thumb]:bg-gray-500 ">
+    <div className="w-full h-screen sm:w-[300px]  border mt-[110px] p-4 overflow-y-auto [scrollbar-width:thin] [-ms-overflow-style:auto] [&::-webkit-scrollbar]:w-2 [scrollbar-color:#999_transparent] [&::-webkit-scrollbar-thumb]:bg-gray-400 hover:[&::-webkit-scrollbar-thumb]:bg-gray-500 pb-9">
       {/* User search input */}
       <SearchBox className="border-2 outline-none p-3 w-full rounded-full mb-6" />
 

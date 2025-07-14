@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div className="h-screen overflow-hidden">
     <Navbar />
-    <div className="">
+    <div className="flex gap-1">
       <SideBar />
       <MessageBox />
     </div>
