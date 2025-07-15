@@ -30,7 +30,7 @@ const MessageBox = () => {
 
         {/* here i want to create msg dispaying from sender and reciever */}
       {/* Messages Display Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-100 ">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-100 h-full">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -50,10 +50,10 @@ const MessageBox = () => {
       </div>
 
          {/* this is msg sending ui */}
-        <div className="absolute bottom-[110px] border w-full flex justify-between items-center p-2">
+        <div className="absolute bottom-[110px] border w-full flex justify-between items-center p-2 bg-gray-200">
 
           {/* msg typing input field */}
-          <input type="text" className="outline-none  min-w-1/2 text-[18px]" placeholder="type something" />
+          <input type="text" className="outline-none  min-w-1/2 text-[18px] " placeholder="type something " />
 
 
             {/* options for sending and voice */}
