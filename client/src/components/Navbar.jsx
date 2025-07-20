@@ -1,17 +1,15 @@
-
 import { motion, AnimatePresence } from "framer-motion";
-import { useState , lazy } from "react";
+import { useState, lazy } from "react";
 import { Menu, X, Settings, Search, CircleUserRound, House } from "lucide-react";
 import { Link } from "react-router-dom";
 import useUser from "../Context/userStore";
-const SearchInp = lazy(() =>import('./SearchBox'))
+
+const SearchInp = lazy(() => import('./SearchBox'));
 
 const btnVariants = {
   hover: { scale: 1.1, boxShadow: "0px 0px 10px rgb(255,255,255)" },
   tap: { scale: 0.9, backgroundColor: "#34D399" },
 };
-
-
 
 const menuVariants = {
   hidden: {
@@ -34,7 +32,7 @@ const menuVariants = {
 const Navbar = () => {
   const { isUser } = useUser();
   const [isMobile, setIsMobile] = useState(false);
-  const [showInp, setShowInp] = useState(false)
+  const [showInp, setShowInp] = useState(false);
 
   if (isUser === null) return <p className="text-white text-center">Loading...</p>;
 
@@ -49,44 +47,55 @@ const Navbar = () => {
       {/* Desktop View */}
       <div className="hidden md:flex gap-6">
         {isUser.status === true ? (
-          <div className="flex items-center justify-between gap-4 relative ">
-          
-          {showInp && <SearchInp className='border p-3 rounded-full outline-none md:w-[350px]'/> }
-            
+          <div className="flex items-center justify-between gap-4 relative">
+            {showInp && (
+              <motion.div
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -50, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="w-full flex justify-center"
+              >
+                <SearchInp className="border p-3 rounded-full outline-none w-full max-w-xs" />
+              </motion.div>
+            )}
 
-            {/* home icon */}
-           <motion.h1 
-           variants={btnVariants}
-           whileHover='hover'
-           whileTap='tap'
-           className="rounded-full px-4 py-2 cursor-pointer"
-           >
-                <Link to='/home'>
+            {/* Home Icon */}
+            <motion.h1
+              variants={btnVariants}
+              whileHover="hover"
+              whileTap="tap"
+              className="rounded-full px-4 py-2 cursor-pointer"
+            >
+              <Link to="/home">
                 <House />
-                </Link>
-          </motion.h1>
+              </Link>
+            </motion.h1>
 
-            {/* search icon */}
-           <motion.button 
-           type="button"
-           variants={btnVariants}
-           whileHover='hover'
-           whileTap='tap'
-           className="rounded-full px-4 py-2 cursor-pointer"
-           onClick={() => setShowInp(!showInp)}
-           >
-                <Search />
-             </motion.button>
-            {/* profile icon */}
-            <motion.h1 
-             variants={btnVariants}
-             whileHover='hover'
-             whileTap='tap'
-             title="profile"
-            className="rounded-full px-4 py-2 cursor-pointer">
+            {/* Search Icon */}
+            <motion.button
+              type="button"
+              variants={btnVariants}
+              whileHover="hover"
+              whileTap="tap"
+              className="rounded-full px-4 py-2 cursor-pointer"
+              onClick={() => setShowInp(!showInp)}
+            >
+              <Search />
+            </motion.button>
+
+            {/* Profile Icon */}
+            <motion.h1
+              variants={btnVariants}
+              whileHover="hover"
+              whileTap="tap"
+              title="profile"
+              className="rounded-full px-4 py-2 cursor-pointer"
+            >
               <CircleUserRound />
             </motion.h1>
-            {/* settings btn */}
+
+            {/* Settings */}
             <motion.button
               variants={btnVariants}
               whileHover="hover"
@@ -95,11 +104,10 @@ const Navbar = () => {
               title="settings"
               className="rounded-full px-4 py-2 cursor-pointer"
             >
-              <Link to='/settings'>
-              <Settings />
+              <Link to="/settings">
+                <Settings />
               </Link>
             </motion.button>
-           
           </div>
         ) : (
           <>
@@ -129,8 +137,12 @@ const Navbar = () => {
 
       {/* Mobile Hamburger Button */}
       <div className="md:hidden">
-        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile(prev => !prev)}>
-          {isMobile ? <X size={28} className="cursor-pointer" /> : <Menu size={28} className="cursor-pointer" />}
+        <motion.button whileTap={{ scale: 0.9 }} onClick={() => setIsMobile((prev) => !prev)}>
+          {isMobile ? (
+            <X size={28} className="cursor-pointer" />
+          ) : (
+            <Menu size={28} className="cursor-pointer" />
+          )}
         </motion.button>
       </div>
 
@@ -145,60 +157,73 @@ const Navbar = () => {
             className="absolute top-full left-0 w-full bg-gray-900 flex flex-col items-center justify-center gap-6 p-6 md:hidden"
           >
             {isUser.status === true ? (
-              <div className="flex gap-3 items-center relative">
+              <div className="w-full">
+                {showInp ? (
+                  // Only search input + close
+                  <div className="w-full flex items-center justify-center gap-3">
+                    <SearchInp className="w-full px-4 py-2 rounded-full border border-white bg-transparent text-white placeholder:text-white/70 outline-none max-w-[90%]" />
+                    <motion.button
+                      onClick={() => setShowInp(false)}
+                      variants={btnVariants}
+                      whileTap="tap"
+                      className="rounded-full p-2"
+                    >
+                      <X />
+                    </motion.button>
+                  </div>
+                ) : (
+                  // Normal nav icons
+                  <div className="w-full flex justify-center gap-3 items-center">
+                    {/* Home */}
+                    <motion.h1
+                      variants={btnVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      className="rounded-full px-4 py-2 cursor-pointer"
+                    >
+                      <Link to="/home">
+                        <House />
+                      </Link>
+                    </motion.h1>
 
-                {showInp && <SearchInp className='border p-3 rounded-full outline-none md:w-[350px]'/> }
+                    {/* Search */}
+                    <motion.button
+                      variants={btnVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      type="button"
+                      className="rounded-full px-4 py-2 cursor-pointer"
+                      onClick={() => setShowInp(true)}
+                    >
+                      <Search />
+                    </motion.button>
 
-              {/* home icon */}
-           <motion.h1 
-           variants={btnVariants}
-           whileHover='hover'
-           whileTap='tap'
-           className="rounded-full px-4 py-2 cursor-pointer"
-           >
-                <Link to='/home'>
-                <House />
-                </Link>
-          </motion.h1>
+                    {/* Profile */}
+                    <motion.h1
+                      variants={btnVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      title="profile"
+                      className="rounded-full px-4 py-2 cursor-pointer"
+                    >
+                      <CircleUserRound />
+                    </motion.h1>
 
-                {/* search icon */}
-            <motion.button 
-           variants={btnVariants}
-           whileHover='hover'
-           type="button"
-           whileTap='tap'
-           className="rounded-full px-4 py-2 cursor-pointer"
-           onClick={() => setShowInp(!showInp)}
-           >
-                <Search />
-             </motion.button>
-                
-    
-            {/* profile icon */}
-            <motion.h1 
-             variants={btnVariants}
-             whileHover='hover'
-             whileTap='tap'
-             title="profile"
-            className="rounded-full px-4 py-2 cursor-pointer">
-              <CircleUserRound />
-
-              {/* settings icon */}
-            </motion.h1>
-                <motion.button
-                  variants={btnVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  type="button"
-                  title="settings"
-                  className="rounded-full px-4 py-2 cursor-pointer"
-                >
-                 
-                  <Link to='/settings'>
-                  <Settings />
-                  </Link>
-                 
-                </motion.button>
+                    {/* Settings */}
+                    <motion.button
+                      variants={btnVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      type="button"
+                      title="settings"
+                      className="rounded-full px-4 py-2 cursor-pointer"
+                    >
+                      <Link to="/settings">
+                        <Settings />
+                      </Link>
+                    </motion.button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col gap-4">
