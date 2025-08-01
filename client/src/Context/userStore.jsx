@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import axiosInstance from "../utils/axiosInstance";
-// import io from 'socket.io-client'
+import {io} from "socket.io-client";
 
  const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen.onrender.com";
  console.log('base url :', baseUrl);
@@ -21,31 +21,15 @@ export const UserProvider = ({children}) => {
   });
 
   const [errMsg, setErrMsg] = useState('');
-  // const socket = useRef(null)
 
-  // const connectSocket = () => {
-  //   if(isUser.status === false || socket.current?.connected) return ;
-    
-  //   socket.current = io(baseUrl, {
-  //     withCredentials : true
-  //   });
-  //   socket.current.connect() 
-  // }
-
-  // useEffect(() => {
-  //   if(isUser.status){
-  //     connectSocket()
-  //   }
-  // }, [isUser.status])
+  const socket = io(baseUrl);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await axiosInstance.get('/checkAuth');
-
         console.log('checkAuth Res : ', res);
         setIsUser({status : res?.data?.status, loading : res?.data?.loading})
-       
       } catch (err) {
         console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {
@@ -78,6 +62,9 @@ export const UserProvider = ({children}) => {
         const res = await axiosInstance.post('/signup', user);
         console.log(res);
         setIsUser({status : true  , loading : false});
+        socket.on('connect', (socket) => {
+          console.log('a user connected : ', socket.id)
+        })
         navigate('/') 
       } catch (err) {
         console.log(err)
@@ -95,9 +82,6 @@ export const UserProvider = ({children}) => {
         const res = await axiosInstance.post('/logout');
         setIsUser({status : res?.data?.status});
         setErrMsg(res?.data?.msg)
-          // if(socket.current?.connected){
-          //   socket.current.disconnect();
-          // }
         setTimeout(() => {
           navigate('/')
         }, 1500);
@@ -120,6 +104,9 @@ export const UserProvider = ({children}) => {
           const res = await axiosInstance.post('/login',{email, password} );
           console.log(res);
           setIsUser({status : true, loading : false});
+           socket.on('connect', (socket) => {
+          console.log('a user connected : ', socket.id)
+        })
           navigate('/')
       } catch (err) {
         console.log(err);
