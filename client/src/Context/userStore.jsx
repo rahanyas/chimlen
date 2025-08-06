@@ -5,13 +5,16 @@ import axiosInstance from "../utils/axiosInstance";
 import {io} from "socket.io-client";
 
  const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? "http://localhost:9000" : "https://chimlen.onrender.com";
+
  console.log('base url :', baseUrl);
- 
 
 const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
-  const [isUser, setIsUser] = useState({});
+  const [isUser, setIsUser] = useState({
+    status : false,
+    loading : true
+  });
 
   const [user, setUser] = useState({
     userName : '',
@@ -20,16 +23,16 @@ export const UserProvider = ({children}) => {
     mobile : ''
   });
 
-  const [errMsg, setErrMsg] = useState('');
+  const socketRef = useRef(null);
 
-  const socket = io(baseUrl);
+  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await axiosInstance.get('/checkAuth');
         console.log('checkAuth Res : ', res);
-        setIsUser({status : res?.data?.status, loading : res?.data?.loading})
+        setIsUser({status : res?.data?.status, loading : res?.data?.loading});
       } catch (err) {
         console.log('Error from checkAuth:', err)
         if (err.response?.status === 400) {
@@ -41,6 +44,11 @@ export const UserProvider = ({children}) => {
     checkAuth()
   }, []);
 
+  useEffect(() => {
+        if(isUser.status){
+          connectSocket()
+        }
+  }, [isUser.status])
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -62,9 +70,7 @@ export const UserProvider = ({children}) => {
         const res = await axiosInstance.post('/signup', user);
         console.log(res);
         setIsUser({status : true  , loading : false});
-        socket.on('connect', (socket) => {
-          console.log('a user connected : ', socket.id)
-        })
+        connectSocket()
         navigate('/') 
       } catch (err) {
         console.log(err)
@@ -82,16 +88,25 @@ export const UserProvider = ({children}) => {
         const res = await axiosInstance.post('/logout');
         setIsUser({status : res?.data?.status});
         setErrMsg(res?.data?.msg)
+        disConnectSocket();
         setTimeout(() => {
           navigate('/')
         }, 1500);
-        console.log(res)
       } catch (err) {
         console.log(err);
         setErrMsg(err?.response?.data?.msg || 'something went wrong... Logout failed ')
       }
   },[],
   );
+
+  function connectSocket(){
+    if(socketRef.current?.connected) return; 
+    const socket = io(baseUrl, {
+      withCredentials : true
+    });
+    socket.connect();
+    socketRef.current = socket;
+  };
 
   const handleLogin =  useCallback(
     async (navigate) => {
@@ -102,12 +117,10 @@ export const UserProvider = ({children}) => {
           return;
         }
           const res = await axiosInstance.post('/login',{email, password} );
-          console.log(res);
+          console.log('login successfull : ' , res);
           setIsUser({status : true, loading : false});
-           socket.on('connect', (socket) => {
-          console.log('a user connected : ', socket.id)
-        })
-          navigate('/')
+          connectSocket();
+          navigate('/');
       } catch (err) {
         console.log(err);
         setErrMsg(err?.response?.data?.msg || "Login failed")
@@ -115,6 +128,14 @@ export const UserProvider = ({children}) => {
       }
     },[user]
   );
+
+
+  function disConnectSocket(){
+    if(socketRef.current?.connected){
+      socketRef.current?.disconnect();
+      socketRef.current = null
+    }
+  }
 
   const googleLogin = () => {
     window.location.href = import.meta.env.VITE_NODE_ENV === "development" ? 'http://localhost:9000/auth/google' : "https://chimlen.onrender.com/auth/google"
