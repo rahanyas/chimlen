@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import passport from 'passport';
-import generateToken from '../utils/createToken.js';
+import {generateToken} from '../utils/createToken.js';
 
 const NODE_ENV =  process.env.NODE_ENV || 'development'
 console.log('node env : ', NODE_ENV) 

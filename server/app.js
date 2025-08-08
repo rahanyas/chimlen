@@ -10,8 +10,7 @@ import passport from 'passport';
 import {Strategy as GoogleStrategy} from "passport-google-oauth20"
 import {Strategy as OAuth2Strategy, TokenError} from 'passport-oauth2'
 
-//to parse cookies send by client
-import cookieParser from 'cookie-parser';
+
 
 import { oAuth } from './controllers/userController.js';
 import userRoutes from './Routes/UserRoutes.js'
@@ -28,7 +27,6 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 connect_db();
 
 app.use(passport.initialize());
-app.use(cookieParser());
 
 // console.log('NODE_ENV : ', NODE_ENV);
 // console.log('google client id : ', CLIENT_ID );

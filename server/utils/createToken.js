@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
 
-const generateToken =  (userId, res) => {
+export const generateToken =  (userId, res) => {
   try {
+    console.log("generateToken function called with userId:", userId);
     if(!userId){
       console.log('Error : UserId is undefined in generateTokne');
       return;
@@ -10,11 +11,11 @@ const generateToken =  (userId, res) => {
 
     res.cookie("token", token, {
        httpOnly : true,
-       secure : true,
-       sameSite : "None",
+       secure : process.env.NODE_ENV !== 'development' ? true : false,
+       sameSite : process.env.NODE_ENV !== 'development' ?"None" : "Lax",
        maxAge : 2 * 24 * 60 * 60 * 1000
     });
-    //  console.log('token set in cookies : ', token)
+     console.log('token set in cookies : ', token)
     return token;
   } catch (err) {
     console.log('error in generateToken : ',err);
@@ -23,4 +24,4 @@ const generateToken =  (userId, res) => {
 
 };
 
-export default generateToken;
+
