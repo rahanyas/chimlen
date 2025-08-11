@@ -10,9 +10,7 @@ const userSchema = mongoose.Schema({
      unique : true,
      required : true,
      validate : {
-      validator : (value) => {
-        return /^\S+@\S+\.\S+$/.test(value)
-      },
+      validator : (value) =>  /^\S+@\S+\.\S+$/.test(value),
       message : 'Invalid email'
      }
   },

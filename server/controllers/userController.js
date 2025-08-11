@@ -1,6 +1,6 @@
 import User from "../modal/userModal.js";
 import bcrypt from 'bcrypt';
-import {generateToken} from "../utils/createToken.js";
+import { generateToken } from "../utils/createToken.js";
 import jwt from 'jsonwebtoken';
 
 export const handleSignup = async (req, res) => {
@@ -33,7 +33,7 @@ export const handleSignup = async (req, res) => {
       return res.status(400).json({error : 'user not saved'})
     };
      
-    generateToken(newUser._id ,res)
+    generateToken(newUser._id, res)
     return res.status(200).json({data : newUser})
   } catch (error) {
     return res.status(400).json({error : error.message})
@@ -61,6 +61,7 @@ export const handleLogin = async (req, res) => {
           if(!isMatch){
             return res.status(400).json({msg : "invalid credentials", status : false, loading : true})
           }
+        generateToken(user._id, res);
          return res.status(200).json({msg : 'Login successfull', status : true, loading : false})
     }
 
