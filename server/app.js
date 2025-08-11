@@ -11,6 +11,7 @@ import {Strategy as GoogleStrategy} from "passport-google-oauth20"
 import {Strategy as OAuth2Strategy, TokenError} from 'passport-oauth2'
 
 
+import cors from 'cors'
 
 import { oAuth } from './controllers/userController.js';
 import userRoutes from './Routes/UserRoutes.js'
@@ -22,6 +23,11 @@ const port = process.env.PORT;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || 'EMPTY'
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+
+app.use(cors({
+  origin : ["http://localhost:5173", "https://chimlen.vercel.app", "https://chimlen.onrender.com"],
+  credentials : true
+}));
 
 // connect to the database
 connect_db();
