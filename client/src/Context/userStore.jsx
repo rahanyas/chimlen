@@ -100,6 +100,8 @@ export const UserProvider = ({children}) => {
   );
 
   function connectSocket(){
+    console.log('socket ref : ', socketRef.current);
+    
     if(socketRef.current?.connected) return; 
     const socket = io(baseUrl, {
       withCredentials : true
