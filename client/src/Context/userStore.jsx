@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, useCallback, useRef } f
 import axiosInstance from "../utils/axiosInstance";
 import {io} from "socket.io-client";
 
- const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? import.meta.env.VITE_BACKEND_URL  : import.meta.env.VITE_PRODUCTION_BACKEND_URL ;
+ const baseUrl = import.meta.env.VITE_NODE_ENV ==="development" ? import.meta.env.VITE_BACKEND_URL || 'http://localhost:9000'  : import.meta.env.VITE_PRODUCTION_BACKEND_URL || "https://chimlen.onrender.com" ;
 
  console.log('base url :', baseUrl);
 
