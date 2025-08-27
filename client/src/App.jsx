@@ -9,6 +9,7 @@ import  { UserProvider } from "./Context/userStore";
 import { ProtectedRoute } from "./components/ProtectedRoutes";;
 import { ThemeProvider } from "./Context/themeStore";
 import useTheme from "./Context/themeStore";
+
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const Login = lazy(() => import("./Pages/Login"));
 const Home = lazy(() => import('./Pages/Home'))

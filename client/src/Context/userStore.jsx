@@ -47,7 +47,9 @@ export const UserProvider = ({children}) => {
         };
 
         return () => {
-          disConnectSocket()
+          if(!user.status && socketRef.current){ 
+            disConnectSocket()
+          }
         }
   }, [isUser.status])
 
@@ -66,7 +68,6 @@ export const UserProvider = ({children}) => {
         setErrMsg("password do not match");
         return;
       };
-  
       try {
         const res = await axiosInstance.post('/signup', user, {withCredentials : true});
         console.log(res);
@@ -103,9 +104,10 @@ export const UserProvider = ({children}) => {
     console.log('socket ref : ', socketRef.current);
     
     if(socketRef.current?.connected) return; 
+    //  passed credential for to get token to backend
     const socket = io(baseUrl, {
-      withCredentials : true
-    });
+      withCredentials : true,
+    })
     socket.connect();
     socketRef.current = socket;
   };

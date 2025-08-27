@@ -14,7 +14,7 @@ const SideBar = () => {
         {users.map((user, index) => (
           <div
             key={index}
-            className="flex items-center justify-center gap-x-4 p-3 border rounded-md shadow-sm"
+            className="flex items-center justify-center gap-x-4 p-3 border rounded-md shadow-sm  cursor-pointer"
           >
             {/* Profile circle */}
             <div>
