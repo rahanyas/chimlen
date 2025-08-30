@@ -16,7 +16,8 @@ const Home = lazy(() => import('./Pages/Home'))
 const ForgotPass = lazy(() => import('./Pages/ForgotPass'))
 const Otp = lazy(() => import('./Pages/Otp'))
 const NewPassPage = lazy(() => import('./Pages/NewPassPage'))
-const SettingsPage = lazy(() => import('./Pages/Settings'))
+const SettingsPage = lazy(() => import('./Pages/Settings'));
+const ProfilePage = lazy(() => import('./Pages/Profile'));
 // why i used key in routes?
 // without setting key ,the animatePresence might not detect the transition properly, leading to broken animations
 
@@ -54,7 +55,12 @@ const AppRoutes = () => {
                 <Home />
                </ProtectedRoute>
               }/>
-          </Routes>
+            <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+            } />
+           </Routes>
         </motion.div>
       </Suspense>
     </AnimatePresence>

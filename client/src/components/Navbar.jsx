@@ -92,7 +92,9 @@ const Navbar = () => {
               title="profile"
               className="rounded-full px-4 py-2 cursor-pointer"
             >
-              <CircleUserRound />
+                <Link to='/profile'>
+                      <CircleUserRound />
+                      </Link>
             </motion.h1>
 
             {/* Settings */}
@@ -206,7 +208,9 @@ const Navbar = () => {
                       title="profile"
                       className="rounded-full px-4 py-2 cursor-pointer"
                     >
+                      <Link to='/profile'>
                       <CircleUserRound />
+                      </Link>
                     </motion.h1>
 
                     {/* Settings */}
