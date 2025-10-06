@@ -25,7 +25,9 @@ export const UserProvider = ({children}) => {
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = async (msg) => {
+      console.log(msg);
+      
       try {
         const res = await axiosInstance.get('/checkAuth', {withCredentials : true});
         console.log('checkAuth Res : ', res);
@@ -38,7 +40,7 @@ export const UserProvider = ({children}) => {
         setIsUser({ status: false, loading : true });
       };
     };
-    checkAuth();
+    checkAuth('hello');
   }, []);
 
   useEffect(() => {

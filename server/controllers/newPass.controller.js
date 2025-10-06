@@ -2,6 +2,7 @@ import otpHandlerInstance from "./otp.controllers.js";
 import User from "../modal/userModal.js";
 import otpModal from "../modal/otpModal.modal.js";
 import bcrypt from 'bcrypt'
+
 class NewPassword {
   constructor(){
     this.otpHandler = otpHandlerInstance;
