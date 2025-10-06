@@ -13,7 +13,8 @@ export const generateToken =  (userId, res) => {
        httpOnly : true,
        secure : process.env.NODE_ENV !== 'development' ? true : false,
        sameSite : process.env.NODE_ENV !== 'development' ?"None" : "Lax",
-       maxAge : 2 * 24 * 60 * 60 * 1000
+       maxAge : 2 * 24 * 60 * 60 * 1000,
+       domain : ".chimlen.onrender.com"
     });
      console.log('token set in cookies : ', token)
     return token;
@@ -21,7 +22,7 @@ export const generateToken =  (userId, res) => {
     console.log('error in generateToken : ',err);
     return res.status(400).json({msg : 'Token generation failed'})
   }
-
+xc
 };
 
 

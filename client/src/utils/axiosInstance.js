@@ -7,9 +7,6 @@ const baseURL = import.meta.env.VITE_NODE_ENV === "development" ? `${import.meta
 const axiosInstance = axios.create({
   baseURL : baseURL,
   withCredentials : true,
-  headers : {
-    'Content-Type' : 'application/json'
-  }
 });
 
 export default axiosInstance;
