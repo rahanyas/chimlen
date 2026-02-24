@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config()
+dotenv.config();
 
 import { app, server } from './socket.js';
 
